@@ -1,0 +1,67 @@
+<div class="container-modules">
+  <div class="container py-5">
+    <div class="row justify-content-md-center">
+      <div class="col-md-6">
+        <form class="row g-3" [formGroup]="form" (ngSubmit)="submitForm()">
+          <span class="texto-datos pt-0">Comencemos con tus datos</span>
+          <span class="texto-datos-personales pt-0">Datos personales</span>
+          <div class="col-md-6">
+            <label for="inputCedula" class="form-label">Cédula</label>
+            <input type="text" class="form-control" id="inputCedula" formControlName="cedula">
+          </div>
+          <div class="col-md-6">
+            <label for="inputCodigoDactilar" class="form-label">Código dactilar</label>
+            <input type="text" class="form-control" id="inputCodigoDactilar" formControlName="codigoDactilar">
+          </div>
+          <span class="texto-datos-personales pt-0">Datos de contacto</span>
+          <div class="col-md-6">
+            <label for="inputEmail" class="form-label">Email</label>
+            <input type="email" class="form-control" id="inputEmail" formControlName="email">
+          </div>
+          <div class="col-md-6">
+            <label for="inputCelular" class="form-label">Celular</label>
+            <input type="text" class="form-control" id="inputCelular" formControlName="celular">
+          </div>
+          <div class="col-12">
+            <label for="inputDireccion" class="form-label">Dirección</label>
+            <input type="text" class="form-control" id="inputDireccion" placeholder="" formControlName="direccion">
+          </div>
+          <div class="col-12">
+            <label for="inputCallePrincipal" class="form-label">Calle principal</label>
+            <input type="text" class="form-control" id="inputCallePrincipal" placeholder="" formControlName="callePrincipal">
+          </div>
+          <div class="col-12">
+            <label for="inputCalleSecundaria" class="form-label">Calle Secundaria</label>
+            <input type="text" class="form-control" id="inputCalleSecundaria" placeholder="" formControlName="calleSecundaria">
+          </div>
+          <div class="col-md-2">
+            <label for="inputManzana" class="form-label">Manzana</label>
+            <input type="text" class="form-control" id="inputManzana" formControlName="manzana">
+          </div>
+          <div class="col-md-2">
+            <label for="inputVilla" class="form-label">Villa</label>
+            <input type="text" class="form-control" id="inputVilla" formControlName="villa">
+          </div>
+          <div class="col-md-8">
+            <label for="inputReferencia" class="form-label">Referencia</label>
+            <input type="text" class="form-control" id="inputReferencia" formControlName="referencia">
+          </div>
+          <div class="col-12">
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" id="gridCheck" formControlName="acepto">
+              <label class="form-check-label" for="gridCheck">
+                Al aceptar, estás de acuerdo con nuestra <span style="color: #6c2e83;">Política de protección de datos personales</span>
+              </label>
+            </div>
+          </div>
+          <div class="col-12">
+            <button type="submit" class="btn btn-primary" [disabled]="!form.valid">Continuar</button>
+          </div>
+        </form>
+      </div>
+      <div class="col-md-3">
+        <app-resumen-pedido></app-resumen-pedido>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,77 @@
+/* You can add global styles to this file, and also import other style files */
+body {
+  font-family: var(--font-family);
+}
+
+.header, .navbar {
+  background-color: #3F1B6A !important;
+}
+
+.nav-link, .nav-link:hover {
+  color: #fff;
+  letter-spacing: 1px;
+}
+
+.timeline, .footer {
+  background-color: #F9F9F9;
+}
+
+.legacy {
+  background-color: #FFFFFF;
+}
+
+.container-modules {
+  background: #ebebeb;
+}
+
+form {
+  background: #F9F9F9;
+  border-radius: 10px;
+  padding: 0px 20px 20px 20px;
+  font-weight: 600;
+}
+
+.resumen-pedido {
+  border-radius: 10px;
+  background: #F9F9F9;
+  margin-top: -15px;
+  padding: 15px 20px 25px 25px;
+}
+
+.resumen-pedido .titulo {
+  line-height: 1.25;
+}
+
+.resumen-pedido .descripcion {
+  font-weight: 600;
+  color: #525A6C;
+}
+
+.resumen-pedido .detalle {
+  font-size: 0.75em;
+}
+
+.texto-datos, .resumen-pedido .titulo {
+  color: #6c2e83;
+  font-size: 25px;
+  font-weight: 700;
+}
+
+.texto-datos-personales {
+  color: #525A6C;
+  font-size: 17px;
+  font-weight: 600;
+}
+
+label {
+  color: #525A6C;
+  font-size: 12px;
+}
+
+button {
+  background: linear-gradient(0deg, #96389c 0%, #7f3489 100%);
+}
+
+.form-check-input:checked {
+  background-color: #83378f;
+}
