@@ -1,0 +1,40 @@
+.calendar-container {
+  display: inline-block;
+  position: relative;
+  z-index: 1;
+}
+
+.input-container {
+  position: relative;
+  display: inline-block;
+  margin-bottom: 0.5rem;
+}
+
+.time-input {
+  padding-right: 30px; /* Espacio para el ícono */
+}
+
+.arrow-icon {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+}
+
+.time-list {
+  max-height: 200px;
+  overflow-y: auto;
+  border: 1px solid #ccc;
+  padding: 5px;
+  text-align: center;
+}
+
+.time-list div {
+  cursor: pointer;
+  padding: 5px;
+}
+
+.time-list div.selected {
+  background-color: #3498db;
+  color: white;
+}
