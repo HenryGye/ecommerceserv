@@ -6,12 +6,30 @@ import { DatosPersonalesComponent } from './modules/datos-personales/datos-perso
 const routes: Routes = [
   {
     path: '',
+    redirectTo: 'compra-en-linea/datos-personales',
+    pathMatch: 'full'
+  },
+  {
+    path: 'compra-en-linea',
     component: ContentLayoutComponent,
-    // children :[
-    //   {
-    //     path: '', component: DatosPersonalesComponent,
-    //   }
-    // ]
+    children :[
+      {
+        path: 'datos-personales', component: DatosPersonalesComponent,
+      },
+      // {
+      //   path: 'cobertura', component: CoberturaComponent,
+      // },
+      // {
+      //   path: 'biometria-facial', component: BiometriaFacialComponent,
+      // },
+      // {
+      //   path: 'instalacion', component: InstalacionComponent,
+      // }
+    ]
+  },
+  {
+    path: '**',
+    redirectTo: 'compra-en-linea/datos-personales'
   }
 ];
 
