@@ -15,6 +15,7 @@ export class DatosPersonalesComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder, private sharedService: SharedService) {
     this.initializeForm();
+    this.sharedService.setTimeLineCobertura(true);
     this.sharedService.setTimeLineDatosPersonales(true);
     this.sharedService.setTimeLineActivo1(true);
   }

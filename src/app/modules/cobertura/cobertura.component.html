@@ -1,1 +1,25 @@
-<p>cobertura works!</p>
+<div class="container-modules">
+  <div class="container py-5">
+    <div class="row justify-content-md-center">
+      <div class="col-md-6">
+        <form class="row g-3">
+          <span class="texto-datos pt-0">Verifiquemos la cobertura de tu zona</span>
+          
+          <div class="col-12">
+            <label for="inputDireccion" class="form-label">Dirección</label>
+            <input type="text" class="form-control" id="inputDireccion" placeholder="">
+          </div>
+          <div class="col-12">
+            <label for="inputDireccion" class="form-label">Sit&uacute;a el pin en tu ubicaci&oacute;n exacta</label>
+          </div>
+          <div class="col-12">
+            <button type="submit" class="btn btn-primary" [disabled]="true">Continuar</button>
+          </div>
+        </form>
+      </div>
+      <div class="col-md-3">
+        <app-resumen-pedido></app-resumen-pedido>
+      </div>
+    </div>
+  </div>
+</div>

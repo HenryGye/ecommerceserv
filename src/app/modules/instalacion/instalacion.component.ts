@@ -9,6 +9,7 @@ import { SharedService } from '../../shared/shared.service';
 export class InstalacionComponent {
   constructor(private sharedService: SharedService) {
     this.sharedService.setTimeLineCobertura(true);
+    this.sharedService.setTimeLineDatosPersonales(true);
     this.sharedService.setTimeLineBiometriaFacial(true);
     this.sharedService.setTimeLineInstalacion(true);
     this.sharedService.setTimeLineActivo4(true);

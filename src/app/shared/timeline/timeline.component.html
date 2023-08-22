@@ -2,23 +2,23 @@
   <div class="flex">
     <div class="w-[15%] hidden md:block"></div>
     <div class="flex flex-col md:flex-row justify-center items-center w-full md:w-[70%]">
-      <div class="text-center" [ngClass]="(isSmallScreen && timeLineActivo1) ? 'block' : (isSmallScreen && !timeLineActivo1) ? 'hidden' : ''">
-        <div class="relative">
-          <div class="w-8 h-8 rounded-full bg-[#3F1B6A] flex items-center justify-center">
-            <div class="w-7 h-7 rounded-full to-transparent border-1 border-white"></div>
-          </div>
-          <div class="absolute -bottom-6 left-1/2 transform -translate-x-1/2 w-32 text-xs text-[#222D44] font-medium">DATOS PERSONALES</div>
-        </div>
-      </div>
-      <div class="w-1/4 hidden md:block">
-        <div [ngClass]="timeLineCobertura ? 'bg-[#3F1B6A]' : 'bg-[#D9D9D9]'" class="w-full h-1"></div>
-      </div>
       <div class="text-center" [ngClass]="(isSmallScreen && timeLineActivo2) ? 'block' : (isSmallScreen && !timeLineActivo2) ? 'hidden' : ''">
         <div class="relative">
           <div [ngClass]="timeLineCobertura ? 'bg-[#3F1B6A]' : 'bg-[#D9D9D9]'" class="w-8 h-8 rounded-full flex items-center justify-center">
             <div [ngClass]="timeLineCobertura ? 'border-1 border-white' : ''" class="w-7 h-7 rounded-full to-transparent"></div>
           </div>
           <div class="absolute -bottom-6 left-1/2 transform -translate-x-1/2 w-32 text-xs text-[#222D44] font-medium">COBERTURA</div>
+        </div>
+      </div>
+      <div class="w-1/4 hidden md:block">
+        <div [ngClass]="timeLineDatosPersonales ? 'bg-[#3F1B6A]' : 'bg-[#D9D9D9]'" class="w-full h-1"></div>
+      </div>
+      <div class="text-center" [ngClass]="(isSmallScreen && timeLineActivo1) ? 'block' : (isSmallScreen && !timeLineActivo1) ? 'hidden' : ''">
+        <div class="relative">
+          <div [ngClass]="timeLineDatosPersonales ? 'bg-[#3F1B6A]' : 'bg-[#D9D9D9]'" class="w-8 h-8 rounded-full flex items-center justify-center">
+            <div [ngClass]="timeLineDatosPersonales ? 'border-1 border-white' : ''" class="w-7 h-7 rounded-full to-transparent"></div>
+          </div>
+          <div class="absolute -bottom-6 left-1/2 transform -translate-x-1/2 w-32 text-xs text-[#222D44] font-medium">DATOS PERSONALES</div>
         </div>
       </div>
       <div class="w-1/4 hidden md:block">

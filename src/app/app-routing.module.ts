@@ -9,7 +9,7 @@ import { InstalacionComponent } from './modules/instalacion/instalacion.componen
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'compra-en-linea/datos-personales',
+    redirectTo: 'compra-en-linea/cobertura',
     pathMatch: 'full'
   },
   {
@@ -32,7 +32,7 @@ const routes: Routes = [
   },
   {
     path: '**',
-    redirectTo: 'compra-en-linea/datos-personales'
+    redirectTo: 'compra-en-linea/cobertura'
   }
 ];
 

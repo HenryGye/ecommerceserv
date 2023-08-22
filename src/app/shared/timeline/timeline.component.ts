@@ -7,7 +7,7 @@ import { SharedService } from '../../shared/shared.service';
   styleUrls: ['./timeline.component.css']
 })
 export class TimelineComponent implements OnInit {
-  timeLineDatosPersonales: boolean = true;
+  timeLineDatosPersonales: boolean = false;
   timeLineCobertura: boolean = false;
   timeLineBiometriaFacial: boolean = false;
   timeLineInstalacion: boolean = false;
@@ -25,6 +25,7 @@ export class TimelineComponent implements OnInit {
     this.updateResponsiveLayout();
     window.addEventListener('resize', this.updateResponsiveLayout.bind(this));
 
+    this.timeLineDatosPersonales = this.sharedService.getTimeLineDatosPersonales();
     this.timeLineCobertura = this.sharedService.getTimeLineCobertura();
     this.timeLineBiometriaFacial = this.sharedService.getTimeLineBiometriaFacial();
     this.timeLineInstalacion = this.sharedService.getTimeLineInstalacion();
