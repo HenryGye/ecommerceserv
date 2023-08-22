@@ -1,16 +1,20 @@
 /* You can add global styles to this file, and also import other style files */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 body {
   font-family: 'Ubuntu', sans-serif;
 }
 
-.header, .navbar {
+/* .header, .navbar {
   background-color: #3F1B6A !important;
 }
 
 .nav-link, .nav-link:hover {
   color: #fff;
   letter-spacing: 1px;
-}
+} */
 
 .timeline, .footer {
   background-color: #F9F9F9;

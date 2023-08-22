@@ -13,6 +13,9 @@ import { FooterComponent } from './layout/footer/footer.component';
 import { PrimengModule } from './primeng.module';
 import { SharedModule } from './shared/shared.module';
 import { DatosPersonalesComponent } from './modules/datos-personales/datos-personales.component';
+import { CoberturaComponent } from './modules/cobertura/cobertura.component';
+import { BiometriaFacialComponent } from './modules/biometria-facial/biometria-facial.component';
+import { InstalacionComponent } from './modules/instalacion/instalacion.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +23,10 @@ import { DatosPersonalesComponent } from './modules/datos-personales/datos-perso
     ContentLayoutComponent,
     HeaderComponent,
     FooterComponent,
-    DatosPersonalesComponent
+    DatosPersonalesComponent,
+    CoberturaComponent,
+    BiometriaFacialComponent,
+    InstalacionComponent
   ],
   imports: [
     CommonModule,

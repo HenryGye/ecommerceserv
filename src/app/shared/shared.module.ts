@@ -4,7 +4,7 @@ import { TimelineComponent } from './timeline/timeline.component';
 import { ResumenPedidoComponent } from './resumen-pedido/resumen-pedido.component';
 import { CalendarioFechaComponent } from './calendario-fecha/calendario-fecha.component';
 import { CalendarioHorarioComponent } from './calendario-horario/calendario-horario.component';
-
+import { SharedService } from './shared.service';
 
 @NgModule({
   imports: [
@@ -23,7 +23,9 @@ import { CalendarioHorarioComponent } from './calendario-horario/calendario-hora
     CalendarioFechaComponent,
     CalendarioHorarioComponent
   ],
-  providers: []
+  providers: [
+    SharedService
+  ]
 })
 export class SharedModule {
   constructor() {

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { SharedService } from '../../shared/shared.service';
 
 @Component({
   selector: 'app-datos-personales',
@@ -12,8 +13,10 @@ export class DatosPersonalesComponent implements OnInit {
 
   form!: FormGroup;
 
-  constructor(private formBuilder: FormBuilder) {
+  constructor(private formBuilder: FormBuilder, private sharedService: SharedService) {
     this.initializeForm();
+    this.sharedService.setTimeLineDatosPersonales(true);
+    this.sharedService.setTimeLineActivo1(true);
   }
 
   public ngOnInit(): void {}
