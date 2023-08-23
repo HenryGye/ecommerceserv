@@ -2,11 +2,11 @@
   <div class="mx-auto p-4 w-full md:w-[75%]">
     <div class="flex flex-col md:flex-row justify-center items-start gap-3">
       <div class="bg-[#F9F9F9] w-full md:w-[75%] rounded-2xl">
-        <form class="space-y-4 p-9">
+        <form class="space-y-4 p-9" [formGroup]="form" (ngSubmit)="submitForm()">
           <span class="text-xl font-bold text-[#3F1B6A]">Verifiquemos la cobertura de tu zona</span>
           <div class="w-full">
             <label for="inputDireccion" class="text-[14px] font-bold text-[#6A7180]">Dirección</label>
-            <input type="text" class="w-full px-3 py-2 border rounded-md" id="inputDireccion" placeholder="">
+            <input type="text" class="w-full px-3 py-2 border rounded-md" id="inputDireccion" formControlName="direccion">
           </div>
           <div class="w-full">
             <label for="inputUbicacion" class="text-[14px] font-bold text-[#6A7180]">Sit&uacute;a el pin en tu ubicaci&oacute;n exacta</label>
@@ -15,7 +15,7 @@
             </div>
           </div>
           <div class="w-full">
-            <button type="submit" class="rounded-md px-4 py-2" (click)="continuar()">Continuar</button>
+            <button type="submit" class="rounded-md px-4 py-2 btn-continuar" [disabled]="!form.valid">Continuar</button>
           </div>
         </form>
       </div>

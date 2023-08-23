@@ -10,7 +10,6 @@ import { AppComponent } from './app.component';
 import { ContentLayoutComponent } from './layout/content-layout/content-layout.component';
 import { HeaderComponent } from './layout/header/header.component';
 import { FooterComponent } from './layout/footer/footer.component';
-import { PrimengModule } from './primeng.module';
 import { SharedModule } from './shared/shared.module';
 import { DatosPersonalesComponent } from './modules/datos-personales/datos-personales.component';
 import { CoberturaComponent } from './modules/cobertura/cobertura.component';
@@ -35,7 +34,6 @@ import { InstalacionComponent } from './modules/instalacion/instalacion.componen
     FormsModule,
     ReactiveFormsModule,
     AppRoutingModule,
-    PrimengModule,
     SharedModule
   ],
   providers: [],

@@ -24,7 +24,8 @@ input:focus-visible {
   outline: none;
 }
 
-button {
+.btn-continuar {
+  width: 11.625rem;
   color: #fff;
   background: linear-gradient(0deg, #773282 0%, #AF3BB1 100%) !important;
   box-shadow: 0px 0px 10px 0px rgba(131, 55, 143, 0.4) !important;
@@ -32,6 +33,28 @@ button {
   font-size: 14px;
 }
 
-button:hover {
+.btn-continuar:hover {
   background: #562577!important;
+}
+
+.btn-continuar:disabled {
+  opacity: 0.2;
+  background-color: #E5D0F6;
+}
+
+.btn-continuar[disabled]:hover {
+  background: linear-gradient(0deg, #773282 0%, #AF3BB1 100%) !important;
+}
+
+/* Estilo del img tooltip */
+.image-tooltip {
+  position: absolute;
+  top: 36.5%;
+  left: 49.5%;
+  z-index: 1000;
+  max-width: 200px;
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 8px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 }

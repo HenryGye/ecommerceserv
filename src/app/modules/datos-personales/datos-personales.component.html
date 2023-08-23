@@ -1,71 +1,3 @@
-<!--<div class="container-modules">
-  <div class="container py-5">
-    <div class="row justify-content-md-center">
-      <div class="col-md-6">
-        <form class="row g-3" [formGroup]="form" (ngSubmit)="submitForm()">
-          <span class="texto-datos pt-0">Comencemos con tus datos</span>
-          <span class="texto-datos-personales pt-0">Datos personales</span>
-          <div class="col-md-6">
-            <label for="inputCedula" class="form-label">Cédula</label>
-            <input type="text" class="form-control" id="inputCedula" formControlName="cedula">
-          </div>
-          <div class="col-md-6">
-            <label for="inputCodigoDactilar" class="form-label">Código dactilar</label>
-            <input type="text" class="form-control" id="inputCodigoDactilar" formControlName="codigoDactilar">
-          </div>
-          <span class="texto-datos-personales pt-0">Datos de contacto</span>
-          <div class="col-md-6">
-            <label for="inputEmail" class="form-label">Email</label>
-            <input type="email" class="form-control" id="inputEmail" formControlName="email">
-          </div>
-          <div class="col-md-6">
-            <label for="inputCelular" class="form-label">Celular</label>
-            <input type="text" class="form-control" id="inputCelular" formControlName="celular">
-          </div>
-          <div class="col-12">
-            <label for="inputDireccion" class="form-label">Dirección</label>
-            <input type="text" class="form-control" id="inputDireccion" placeholder="" formControlName="direccion">
-          </div>
-          <div class="col-12">
-            <label for="inputCallePrincipal" class="form-label">Calle principal</label>
-            <input type="text" class="form-control" id="inputCallePrincipal" placeholder="" formControlName="callePrincipal">
-          </div>
-          <div class="col-12">
-            <label for="inputCalleSecundaria" class="form-label">Calle Secundaria</label>
-            <input type="text" class="form-control" id="inputCalleSecundaria" placeholder="" formControlName="calleSecundaria">
-          </div>
-          <div class="col-md-2">
-            <label for="inputManzana" class="form-label">Manzana</label>
-            <input type="text" class="form-control" id="inputManzana" formControlName="manzana">
-          </div>
-          <div class="col-md-2">
-            <label for="inputVilla" class="form-label">Villa</label>
-            <input type="text" class="form-control" id="inputVilla" formControlName="villa">
-          </div>
-          <div class="col-md-8">
-            <label for="inputReferencia" class="form-label">Referencia</label>
-            <input type="text" class="form-control" id="inputReferencia" formControlName="referencia">
-          </div>
-          <div class="col-12">
-            <div class="form-check">
-              <input class="form-check-input" type="checkbox" id="gridCheck" formControlName="acepto">
-              <label class="form-check-label" for="gridCheck">
-                Al aceptar, estás de acuerdo con nuestra <span style="color: #6c2e83;">Política de protección de datos personales</span>
-              </label>
-            </div>
-          </div>
-          <div class="col-12">
-            <button type="submit" class="btn btn-primary" [disabled]="!form.valid">Continuar</button>
-          </div>
-        </form>
-      </div>
-      <div class="col-md-3">
-        <app-resumen-pedido></app-resumen-pedido>
-      </div>
-    </div>
-  </div>
-</div>-->
-
 <div class="bg-[#EBEBEB]">
   <div class="mx-auto p-4 w-full md:w-[75%]">
     <div class="flex flex-col md:flex-row justify-center items-start gap-3">
@@ -74,20 +6,24 @@
           <span class="text-xl font-bold text-[#3F1B6A]">Comencemos con tus datos</span>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div class="w-full text-base font-bold text-[#6A7180] col-span-2">Datos personales</div>
-            <div class="">
+            <div class="col-span-2 md:col-span-1">
               <label for="inputCedula" class="text-[14px] font-bold text-[#6A7180]">C&eacute;dula</label>
               <input type="text" class="w-full px-3 py-2 border rounded-md" id="inputCedula" placeholder="" formControlName="cedula">
             </div>
-            <div class="">
-              <label for="inputCodigoDactilar" class="text-[14px] font-bold text-[#6A7180]">C&oacute;digo Dactilar</label>
+            <div class="col-span-2 md:col-span-1">
+              <div class="flex gap-1 items-center">
+                <label for="inputCodigoDactilar" class="text-[14px] font-bold text-[#6A7180]">C&oacute;digo Dactilar</label>
+                <img [hidden]="!showImg" src="assets/img/notification2.png" alt="xtrim" class="image-tooltip">
+                <svg width="14" height="15" viewBox="0 0 14 15" fill="none" xmlns="http://www.w3.org/2000/svg" class="cursor-pointer img-svg"><path class="img-svg" d="M6.99992 0.833984C3.31763 0.833984 0.333252 3.81836 0.333252 7.50065C0.333252 11.1829 3.31763 14.1673 6.99992 14.1673C10.6822 14.1673 13.6666 11.1829 13.6666 7.50065C13.6666 3.81836 10.6822 0.833984 6.99992 0.833984ZM6.99992 4.16732C7.46008 4.16732 7.83325 4.54049 7.83325 5.00065C7.83325 5.46081 7.46008 5.83398 6.99992 5.83398C6.53976 5.83398 6.16659 5.46159 6.16659 5.00065C6.16659 4.53971 6.53898 4.16732 6.99992 4.16732ZM8.04159 10.834H5.95825C5.6145 10.834 5.33325 10.5553 5.33325 10.209C5.33325 9.86263 5.6132 9.58398 5.95825 9.58398H6.37492V7.91732H6.16659C5.82153 7.91732 5.54159 7.63737 5.54159 7.29232C5.54159 6.94727 5.82284 6.66732 6.16659 6.66732H6.99992C7.34497 6.66732 7.62492 6.94727 7.62492 7.29232V9.58398H8.04159C8.38664 9.58398 8.66659 9.86393 8.66659 10.209C8.66659 10.554 8.38794 10.834 8.04159 10.834Z" fill="#6A7180"/></svg>
+              </div>
               <input type="text" class="w-full px-3 py-2 border rounded-md" id="inputCodigoDactilar" placeholder="" formControlName="codigoDactilar">
             </div>
             <div class="w-full text-base font-bold text-[#6A7180] col-span-2">Datos de contacto</div>
-            <div class="">
+            <div class="col-span-2 md:col-span-1">
               <label for="inputEmail" class="text-[14px] font-bold text-[#6A7180]">Email</label>
               <input type="text" class="w-full px-3 py-2 border rounded-md" id="inputEmail" placeholder="" formControlName="email">
             </div>
-            <div class="">
+            <div class="col-span-2 md:col-span-1">
               <label for="inputCelular" class="text-[14px] font-bold text-[#6A7180]">Celular</label>
               <input type="text" class="w-full px-3 py-2 border rounded-md" id="inputCelular" placeholder="" formControlName="celular">
             </div>
@@ -128,7 +64,7 @@
               </div>
             </div>
             <div class="col-span-2">
-              <button type="submit" class="rounded-md px-4 py-2" [disabled]="!form.valid">Continuar</button>
+              <button type="submit" class="rounded-md px-4 py-2 btn-continuar" [disabled]="!form.valid">Continuar</button>
             </div>
           </div>
         </form>

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, HostListener, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, Navigation, NavigationEnd } from "@angular/router";
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { SharedService } from '../../shared/shared.service';
@@ -10,31 +10,40 @@ import { filter } from 'rxjs/operators';
   styleUrls: ['./datos-personales.component.css']
 })
 export class DatosPersonalesComponent implements OnInit {
-  
-  flagDisabled: boolean = true;
-
   form!: FormGroup;
-
   parametro: any;
+  showImg: boolean = false;
 
-  constructor(private formBuilder: FormBuilder, private sharedService: SharedService, private activatedRoute: ActivatedRoute, private routerparams: Router) {
+  constructor(private formBuilder: FormBuilder,
+    private sharedService: SharedService,
+    private activatedRoute: ActivatedRoute,
+    private routerparams: Router,
+    private elementRef: ElementRef) {
     this.initializeForm();
-    // this.parametro = this.activatedRoute.snapshot.paramMap.get('p');
-    // console.log('p', this.parametro);
-    // if (this.parametro == 2) {
-    //   console.log('entro qui');
-    //   this.sharedService.setTimeLineCobertura(true);
-    //   this.sharedService.setTimeLineDatosPersonales(true);
-    //   this.sharedService.setTimeLineActivo1(true);
-    // }
     this.sharedService.setTimeLineCobertura(true);
     this.sharedService.setTimeLineDatosPersonales(true);
     this.sharedService.setTimeLineActivo1(true);
   }
 
-  public ngOnInit(): void {
+  @HostListener('document:click', ['$event'])
+  onClick(event: MouseEvent) {
+    console.log('click');
+    const img = document.getElementsByClassName('image-tooltip')[0];
+    const imgSvg = document.getElementsByClassName('img-svg');
+    if (event.target === imgSvg[0] || event.target === imgSvg[1]) {
+      console.log('click2');
+      this.showImg = !this.showImg;
+      return;
+    }
     
+    if (event.target === img) {
+      this.showImg = true;
+    } else {
+      this.showImg = false;
+    }
   }
+
+  public ngOnInit(): void {}
 
   initializeForm() {
     this.form = this.formBuilder.group({
@@ -54,8 +63,10 @@ export class DatosPersonalesComponent implements OnInit {
 
   submitForm() {
     if (this.form != undefined && this.form.valid) {
-      alert('Continuará..');
-    } else {
+      console.log('click');
+      this.routerparams.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+        this.routerparams.navigate(['compra-en-linea/biometria-facial']);
+      });
     }
   }
 }
