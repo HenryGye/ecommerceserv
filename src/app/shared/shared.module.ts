@@ -5,23 +5,28 @@ import { ResumenPedidoComponent } from './resumen-pedido/resumen-pedido.componen
 import { CalendarioFechaComponent } from './calendario-fecha/calendario-fecha.component';
 import { CalendarioHorarioComponent } from './calendario-horario/calendario-horario.component';
 import { SharedService } from './shared.service';
+import { GoogleMapsModule } from '@angular/google-maps';
+import { GoogleMapComponent } from './google-map/google-map.component';
 
 @NgModule({
   imports: [
-    CommonModule
+    CommonModule,
+    GoogleMapsModule
   ],
   declarations: [
     TimelineComponent,
     ResumenPedidoComponent,
     CalendarioFechaComponent,
-    CalendarioHorarioComponent
+    CalendarioHorarioComponent,
+    GoogleMapComponent
   ],
   exports: [
     CommonModule,
     TimelineComponent,
     ResumenPedidoComponent,
     CalendarioFechaComponent,
-    CalendarioHorarioComponent
+    CalendarioHorarioComponent,
+    GoogleMapComponent
   ],
   providers: [
     SharedService

@@ -1,4 +1,4 @@
-<div class="container-modules">
+<!--<div class="container-modules">
   <div class="container py-5">
     <div class="row justify-content-md-center">
       <div class="col-md-6">
@@ -60,6 +60,80 @@
         </form>
       </div>
       <div class="col-md-3">
+        <app-resumen-pedido></app-resumen-pedido>
+      </div>
+    </div>
+  </div>
+</div>-->
+
+<div class="bg-[#EBEBEB]">
+  <div class="mx-auto p-4 w-full md:w-[75%]">
+    <div class="flex flex-col md:flex-row justify-center items-start gap-3">
+      <div class="bg-[#F9F9F9] w-full md:w-[75%] rounded-2xl">
+        <form class="space-y-4 p-9" [formGroup]="form" (ngSubmit)="submitForm()">
+          <span class="text-xl font-bold text-[#3F1B6A]">Comencemos con tus datos</span>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="w-full text-base font-bold text-[#6A7180] col-span-2">Datos personales</div>
+            <div class="">
+              <label for="inputCedula" class="text-[14px] font-bold text-[#6A7180]">C&eacute;dula</label>
+              <input type="text" class="w-full px-3 py-2 border rounded-md" id="inputCedula" placeholder="" formControlName="cedula">
+            </div>
+            <div class="">
+              <label for="inputCodigoDactilar" class="text-[14px] font-bold text-[#6A7180]">C&oacute;digo Dactilar</label>
+              <input type="text" class="w-full px-3 py-2 border rounded-md" id="inputCodigoDactilar" placeholder="" formControlName="codigoDactilar">
+            </div>
+            <div class="w-full text-base font-bold text-[#6A7180] col-span-2">Datos de contacto</div>
+            <div class="">
+              <label for="inputEmail" class="text-[14px] font-bold text-[#6A7180]">Email</label>
+              <input type="text" class="w-full px-3 py-2 border rounded-md" id="inputEmail" placeholder="" formControlName="email">
+            </div>
+            <div class="">
+              <label for="inputCelular" class="text-[14px] font-bold text-[#6A7180]">Celular</label>
+              <input type="text" class="w-full px-3 py-2 border rounded-md" id="inputCelular" placeholder="" formControlName="celular">
+            </div>
+            <div class="col-span-2">
+              <label for="inputDireccion" class="text-[14px] font-bold text-[#6A7180]">Direcci&oacute;n</label>
+              <input type="text" class="w-full px-3 py-2 border rounded-md" id="inputDireccion" placeholder="" formControlName="direccion">
+            </div>
+            <div class="col-span-2">
+              <label for="inputCallePrincipal" class="text-[14px] font-bold text-[#6A7180]">Calle principal</label>
+              <input type="text" class="w-full px-3 py-2 border rounded-md" id="inputCallePrincipal" placeholder="" formControlName="callePrincipal">
+            </div>
+            <div class="col-span-2">
+              <label for="inputCalleSecundaria" class="text-[14px] font-bold text-[#6A7180]">Calle secundaria</label>
+              <input type="text" class="w-full px-3 py-2 border rounded-md" id="inputCalleSecundaria" placeholder="" formControlName="calleSecundaria">
+            </div>
+            <div class="col-span-2">
+              <div class="flex flex-col md:flex-row gap-3">
+                <div class="w-full md:w-[15%]">
+                  <label for="inputManzana" class="text-[14px] font-bold text-[#6A7180]">Manzana</label>
+                  <input type="text" class="w-full px-3 py-2 border rounded-md" id="inputManzana" placeholder="" formControlName="manzana">
+                </div>
+                <div class="w-full md:w-[15%]">
+                  <label for="inputVilla" class="text-[14px] font-bold text-[#6A7180]">Villa</label>
+                  <input type="text" class="w-full px-3 py-2 border rounded-md" id="inputVilla" placeholder="" formControlName="villa">
+                </div>
+                <div class="w-full md:w-[70%]">
+                  <label for="inputReferencia" class="text-[14px] font-bold text-[#6A7180]">Referencia</label>
+                  <input type="text" class="w-full px-3 py-2 border rounded-md" id="inputReferencia" placeholder="" formControlName="referencia">
+                </div>
+              </div>
+            </div>
+            <div class="col-span-2">
+              <div class="flex gap-2">
+                <input class="w-[18px] h-[18px] text-[#562577]" type="checkbox" id="gridCheck" formControlName="acepto">
+                <label class="text-[14px] font-normal text-[#6A7180]" for="gridCheck">
+                  Al aceptar, estás de acuerdo con nuestra <span style="color: #6c2e83;">Política de protección de datos personales</span>
+                </label>
+              </div>
+            </div>
+            <div class="col-span-2">
+              <button type="submit" class="rounded-md px-4 py-2" [disabled]="!form.valid">Continuar</button>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="bg-[#F9F9F9] w-[75%] md:w-[25%] rounded-2xl">
         <app-resumen-pedido></app-resumen-pedido>
       </div>
     </div>

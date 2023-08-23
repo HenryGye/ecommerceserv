@@ -1,0 +1,16 @@
+<!--<div id="map" style="width: 100%; height: 400px;"></div>-->
+<google-map
+  height="368.48px"
+  width="100%"
+  [zoom]="zoom"
+  [center]="center"
+  [options]="options"
+>
+  <map-marker
+    [position]="marker.position"
+    [label]="marker.label"
+    [title]="marker.title"
+    [options]="marker.options"
+  >
+  </map-marker>
+</google-map>
