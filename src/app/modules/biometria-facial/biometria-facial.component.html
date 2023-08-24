@@ -6,45 +6,38 @@
           <div class="text-center md:text-left">
             <span class="text-xl font-bold text-[#3F1B6A]">Validaci&oacute;n Biom&eacute;trica</span>
           </div>
-          <!-- primera parte validacion-->
-          <div class="w-full bg-[#FFFFFF] rounded-2xl hidden">
+          <!-- colicitar validacion-->
+          <div class="w-full bg-[#FFFFFF] rounded-2xl" [ngClass]="{'hidden':!panelSolicitarValidacion}">
             <div class="w-full flex justify-center">
               <div class="flex flex-col items-center gap-4 py-20 w-[70%] text-center">
                 <img src="assets/img/icon-exclamation.png">
                 <span class="text-xl font-bold text-[#3F1B6A]">Necesitamos validar tu identidad</span>
                 <span class="text-base font-normal text-[#525A6C] font-montserrat">Para continuar con el proceso de contratación, te enviaremos un mensaje a tu WhatsApp y correo electrónico.</span>
-                <button type="submit" class="rounded-md border-2 border-[#EBECF0] px-4 py-2 mt-8 bg-[#FFFFFF] text-base font-medium text-[#83378F]">Solicitar Validaci&oacute;n</button>
+                <button type="submit" class="rounded-md border-2 border-[#EBECF0] px-4 py-2 mt-8 bg-[#FFFFFF] text-base font-medium text-[#83378F]" (click)="solicitarValidacion()">Solicitar Validaci&oacute;n</button>
               </div>
             </div>
           </div>
-          <!-- segunda parte validacion-->
-          <div class="space-y-4 hidden">
+          <!-- validacion identidad-->
+          <div class="space-y-4" [ngClass]="{'hidden':!panelValidaIdentidad}">
             <div class="w-full bg-[#FFFFFF] rounded-2xl">
               <div class="w-full flex justify-center">
-                <div class="flex flex-col items-center gap-4 py-20 w-[70%] text-center">
+                <!--validacion mensaje-->
+                <div class="flex flex-col items-center gap-4 py-20 w-[70%] text-center" [ngClass]="{'hidden':!panelVerificaIdentidad}">
                   <img src="assets/img/mail.png">
                   <span class="text-xl font-bold text-[#3F1B6A]">Necesitamos validar tu identidad</span>
                   <span class="text-base font-normal text-[#525A6C] font-montserrat">Verifica el mensaje que enviamos a tu WhatsApp y correo electrónico y sigue las instrucciones.</span>
                 </div>
-              </div>
-            </div>
-            <div class="w-full text-center md:text-left">
-              <button type="submit" class="rounded-md px-4 py-2 btn-continuar" [disabled]="valida">Continuar</button>
-            </div>
-          </div>
-          <!-- tercera parte validacion-->
-          <div class="space-y-4">
-            <div class="w-full bg-[#FFFFFF] rounded-2xl">
-              <div class="w-full flex justify-center">
-                <div class="flex flex-col items-center gap-4 py-20 w-[70%] text-center">
-                  <div class="spinner"></div>
-                  <span class="text-xl font-bold text-[#3F1B6A]">Validaci&oacute;n Exitosa</span>
-                  <span class="text-base font-normal text-[#525A6C] font-montserrat">Hemos comprobado tus datos, ya puedes continuar con tu proceso de contratación</span>
+                <!--validacion exito/error-->
+                <div class="flex flex-col items-center gap-4 py-20 w-[70%] text-center" [ngClass]="{'hidden':!panelValidacionExitosa}">
+                  <div class="spinner" [ngClass]="{'hidden':!spinner}"></div>
+                  <img [src]="!showIconValidacionExistosa ? 'assets/img/icon-error.png' : 'assets/img/icon-check.png'" [ngClass]="{'hidden':spinner}">
+                  <span class="text-xl font-bold text-[#3F1B6A]">{{ !validacionExistosa ? 'Validaci&oacute;n Incorrecta' : 'Validaci&oacute;n Exitosa' }}</span>
+                  <span class="text-base font-normal text-[#525A6C] font-montserrat">{{ !validacionExistosa ? 'No hemos podido comprobar tu identidad. Revisa que los datos ingresados sean correctos.' : 'Hemos comprobado tus datos, ya puedes continuar con tu proceso de contratación' }}</span>
                 </div>
               </div>
             </div>
             <div class="w-full text-center md:text-left">
-              <button type="submit" class="rounded-md px-4 py-2 btn-continuar" [disabled]="validaExito">Continuar</button>
+              <button type="submit" class="rounded-md px-4 py-2 btn-continuar" [disabled]="!validacionExistosa" (click)="continuar()">Continuar</button>
             </div>
           </div>
         </div>

@@ -8,6 +8,7 @@ body {
 }
 
 input {
+  background-color: #F9F9F9;
   border-color: #b1b5bd;
   color: #222d44;
   font-size: 14px;
