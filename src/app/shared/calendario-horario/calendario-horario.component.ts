@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 
 @Component({
   selector: 'app-calendario-horario',
@@ -15,6 +15,22 @@ export class CalendarioHorarioComponent {
     this.generateTimeRanges();
   }
 
+  @HostListener('document:click', ['$event'])
+  onClick(event: MouseEvent) {
+    console.log('click');
+    console.log('event.target ', event.target);
+    const timeList = document.getElementsByClassName('time-list')[0];
+    const input = document.getElementsByClassName('time-input')[0];
+    const arrowIcon = document.getElementsByClassName('arrow-icon');
+
+    if (event.target === input || Array.from(arrowIcon).some(e => e.contains(event.target as Node))) {
+      this.showTimeList = !this.showTimeList;
+      return;
+    }
+
+    this.showTimeList = (event.target === timeList) ? true : false;
+  }
+
   generateTimeRanges() {
     const startHour = 8;
     const endHour = 18;
@@ -27,13 +43,8 @@ export class CalendarioHorarioComponent {
     }
   }
 
-  toggleTimeList() {
-    this.showTimeList = !this.showTimeList;
-  }
-
   selectTimeRange(index: number) {
     this.selectedTimeIndex = index;
     this.selectedTimeRange = this.timeRanges[index];
-    this.showTimeList = false;
   }
 }

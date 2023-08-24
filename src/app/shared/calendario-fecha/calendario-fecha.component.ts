@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 
 @Component({
   selector: 'app-calendario-fecha',
@@ -18,6 +18,24 @@ export class CalendarioFechaComponent {
 
   constructor() {
     this.generateDays();
+  }
+
+  @HostListener('document:click', ['$event'])
+  onClick(event: MouseEvent) {
+    console.log('click');
+    console.log('event.target ', event.target);
+    const calendar = document.getElementsByClassName('calendar')[0];
+    const input = document.getElementsByClassName('date-input')[0];
+    const calendarIcon = document.getElementsByClassName('calendar-icon');
+    const calendarDaysHeader = document.getElementsByClassName('calendar-days-header');
+    const calendarHeader = document.getElementsByClassName('calendar-header');
+
+    if (event.target === input || Array.from(calendarIcon).some(e => e.contains(event.target as Node))) {
+      this.showCalendar = !this.showCalendar;
+      return;
+    }
+
+    this.showCalendar = (event.target === calendar || Array.from(calendarHeader).some(e => e.contains(event.target as Node)) || Array.from(calendarDaysHeader).some(e => e.contains(event.target as Node))) ? true : false;
   }
 
   generateDays() {
@@ -50,16 +68,8 @@ export class CalendarioFechaComponent {
     return date1.getDate() === date2.getDate() && date1.getMonth() === date2.getMonth() && date1.getFullYear() === date2.getFullYear();
   }
 
-  toggleCalendar() {
-    this.showCalendar = !this.showCalendar;
-    // if (this.showCalendar) {
-    //   this.selectedDate = new Date(); // Seleccionar el día actual al abrir el calendario
-    // }
-  }
-
   selectDate(date: Date) {
     this.selectedDate = date;
-    this.showCalendar = false;
 
     if (this.selectedDate) {
       const day = this.selectedDate.getDate();
