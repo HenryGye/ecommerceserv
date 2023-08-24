@@ -9,7 +9,7 @@ import { SharedService } from '../../shared/shared.service';
   styleUrls: ['./cobertura.component.css']
 })
 export class CoberturaComponent implements OnInit {
-  form!: FormGroup;  
+  form!: FormGroup;
 
   constructor(
     private formBuilder: FormBuilder,

@@ -58,3 +58,19 @@ input:focus-visible {
   padding: 8px;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 }
+
+/* spinner */
+.spinner {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: conic-gradient(#0000 10%,#83378f);
+  -webkit-mask: radial-gradient(farthest-side,#0000 calc(100% - 9px),#000 0);
+  animation: spinner 1s infinite linear;
+}
+
+@keyframes spinner {
+  to {
+     transform: rotate(1turn);
+  }
+}
