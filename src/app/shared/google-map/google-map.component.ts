@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { SharedService } from '../shared.service';
 
 declare const google: any;
 
@@ -9,27 +10,33 @@ declare const google: any;
 })
 export class GoogleMapComponent implements OnInit {
   zoom = 12;
+
   center: google.maps.LatLngLiteral = {
     lat: -2.1480791,
     lng: -79.9080458
   };
+  
+  marker: any = new google.maps.Marker({
+    position: this.center,
+    map: null,
+  });
+
   options: google.maps.MapOptions = {
-    mapTypeId: 'hybrid',
-    zoomControl: false,
-    scrollwheel: false,
+    mapTypeId: google.maps.MapTypeId.ROADMAP,
+    zoomControl: true,
+    scrollwheel: true,
     disableDoubleClickZoom: true,
-    maxZoom: 15,
+    maxZoom: 16,
     minZoom: 8,
   };
 
-  marker: any = {
-    position: {
-      lat: this.center.lat + ((Math.random() - 0.5) * 2) / 10,
-      lng: this.center.lng + ((Math.random() - 0.5) * 2) / 10,
-    }
-  };
-
-  constructor() { }
+  constructor(private sharedService: SharedService) {
+    this.sharedService.getDireccion().subscribe((direccion) => {
+      if (direccion) {
+        this.searchAddress(direccion);
+      }
+    });
+  }
 
   ngOnInit(): void {
     navigator.geolocation.getCurrentPosition((position) => {
@@ -40,14 +47,24 @@ export class GoogleMapComponent implements OnInit {
     });
   }
 
-  // ngOnInit(): void {
-  //   this.initMap();
-  // }
+  searchAddress(direccion: string) {
+    const geocoder = new google.maps.Geocoder();
 
-  // initMap(): void {
-  //   const map = new google.maps.Map(document.getElementById('map'), {
-  //     center: { lat: -2.1480791, lng: -79.9080458 },
-  //     zoom: 8
-  //   });
-  // }
+    geocoder.geocode({ address: direccion }, (results: any, status: any) => {
+      if (status === google.maps.GeocoderStatus.OK && results.length > 0) {
+        this.center = {
+          lat: results[0].geometry.location.lat(),
+          lng: results[0].geometry.location.lng(),
+        };
+        this.marker.setPosition(this.center);
+        this.marker.map = this.options;
+
+        console.log(this.center);
+        console.log('results ', results);
+        console.log('status ', status);
+      } else {
+        console.error('No se pudo encontrar la dirección.');
+      }
+    });
+  }
 }

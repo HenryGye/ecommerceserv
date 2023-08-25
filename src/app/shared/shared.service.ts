@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SharedService {
+  private direccionSubject = new BehaviorSubject<string>('');
   private timeLineDatosPersonales: boolean = false;
   private timeLineCobertura: boolean = false;
   private timeLineBiometriaFacial: boolean = false;
@@ -76,5 +78,13 @@ export class SharedService {
 
   getTimeLineActivo4(): boolean {
     return this.timeLineActivo4;
+  }
+
+  setDireccion(direccion: string) {
+    this.direccionSubject.next(direccion);
+  }
+
+  getDireccion(): Observable<string> {
+    return this.direccionSubject.asObservable();
   }
 }
