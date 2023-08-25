@@ -34,12 +34,12 @@ export class CalendarioHorarioComponent {
   generateTimeRanges() {
     const startHour = 8;
     const endHour = 18;
-    for (let hour = startHour; hour < endHour; hour++) {
-      for (let minute = 0; minute < 60; minute += 30) {
-        const startTime = `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`;
-        const endTime = `${(hour + (minute === 30 ? 1 : 0)).toString().padStart(2, '0')}:${(minute === 30 ? '00' : '30')}`;
-        this.timeRanges.push(`${startTime} - ${endTime}`);
-      }
+    const interval = 2;
+  
+    for (let hour = startHour; hour < endHour; hour += interval) {
+      const startTime = `${hour.toString().padStart(2, '0')}:00`;
+      const endTime = `${(hour + interval).toString().padStart(2, '0')}:00`;
+      this.timeRanges.push(`${startTime} - ${endTime}`);
     }
   }
 
