@@ -2,6 +2,9 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { NavigationExtras, Router } from '@angular/router';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { SharedService } from '../../shared/shared.service';
+import { CoberturaService } from './cobertura.service';
+import { CoberturaRequest } from './cobertura';
+import { of, switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-cobertura',
@@ -15,6 +18,7 @@ export class CoberturaComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private sharedService: SharedService,
+    private coberturaService: CoberturaService,
     private routerparams: Router) {
     this.sharedService.setTimeLineCobertura(true);
     this.sharedService.setTimeLineActivo2(true);
@@ -40,7 +44,31 @@ export class CoberturaComponent implements OnInit {
   }
 
   buscarDireccion() {
-    // console.log(this.form.get('direccion')?.value);
     this.sharedService.setDireccion(this.form.get('direccion')?.value);
+
+    this.sharedService.getResultadoDireccion().pipe(
+      switchMap(resultado => {
+        if (resultado !== null) {
+          let body: CoberturaRequest = {
+            latitude: resultado.lat,
+            longitude: resultado.lng
+          };
+          return this.coberturaService.postConsultarCobertura(body);
+        }
+        // Si no hay resultado, retorna un observable vacío
+        return of(null);
+      })
+    ).subscribe({
+      next: (data) => {
+        if (data !== null) {
+          console.log('data ', data);
+        }
+      },
+      error: (error) => {
+        console.log(error);
+      }
+    });
+
+    this.disabledButton = true;
   }
 }

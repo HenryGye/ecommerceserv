@@ -6,6 +6,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 })
 export class SharedService {
   private direccionSubject = new BehaviorSubject<string>('');
+  private resultadoDireccionSubject = new BehaviorSubject<string>('');
   private timeLineDatosPersonales: boolean = false;
   private timeLineCobertura: boolean = false;
   private timeLineBiometriaFacial: boolean = false;
@@ -86,5 +87,13 @@ export class SharedService {
 
   getDireccion(): Observable<string> {
     return this.direccionSubject.asObservable();
+  }
+
+  setResultadoDireccion(resultado: any) {
+    this.resultadoDireccionSubject.next(resultado);
+  }
+
+  getResultadoDireccion(): Observable<any> {
+    return this.resultadoDireccionSubject.asObservable();
   }
 }

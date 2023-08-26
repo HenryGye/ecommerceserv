@@ -58,11 +58,13 @@ export class GoogleMapComponent implements OnInit {
         };
         this.marker.setPosition(this.center);
         this.marker.map = this.options;
+        this.sharedService.setResultadoDireccion(this.center);
 
         console.log(this.center);
         console.log('results ', results);
         console.log('status ', status);
       } else {
+        this.sharedService.setResultadoDireccion(null);
         console.error('No se pudo encontrar la dirección.');
       }
     });

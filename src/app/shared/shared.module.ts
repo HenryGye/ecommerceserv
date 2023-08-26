@@ -7,7 +7,6 @@ import { CalendarioHorarioComponent } from './calendario-horario/calendario-hora
 import { SharedService } from './shared.service';
 import { GoogleMapsModule } from '@angular/google-maps';
 import { GoogleMapComponent } from './google-map/google-map.component';
-import { GoogleMapService } from './google-map/google-map.service';
 
 @NgModule({
   imports: [
@@ -30,8 +29,7 @@ import { GoogleMapService } from './google-map/google-map.service';
     GoogleMapComponent
   ],
   providers: [
-    SharedService,
-    GoogleMapService
+    SharedService
   ]
 })
 export class SharedModule {
