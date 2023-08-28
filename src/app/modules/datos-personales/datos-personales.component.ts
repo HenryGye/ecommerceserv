@@ -13,6 +13,7 @@ export class DatosPersonalesComponent implements OnInit {
   form!: FormGroup;
   parametro: any;
   showImg: boolean = false;
+  active: boolean = false;
 
   constructor(private formBuilder: FormBuilder,
     private sharedService: SharedService,
@@ -23,6 +24,17 @@ export class DatosPersonalesComponent implements OnInit {
     this.sharedService.setTimeLineCobertura(true);
     this.sharedService.setTimeLineDatosPersonales(true);
     this.sharedService.setTimeLineActivo1(true);
+    this.sharedService.setTimeLineActivo2(false);
+    this.sharedService.setTimeLineActivo3(false);
+    this.sharedService.setTimeLineActivo4(false);
+
+    // let state = this.routerparams.getCurrentNavigation()?.extras.state;
+    // let state = history.state;
+    // this.active = (state != undefined) ? state['active'] : false;
+    // console.log('state ', this.active);
+    // if (this.active) {
+      
+    // }
   }
 
   @HostListener('document:click', ['$event'])

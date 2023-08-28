@@ -18,22 +18,22 @@ export class TimelineComponent implements OnInit {
   isSmallScreen: boolean | undefined;
 
   constructor(private sharedService: SharedService) {
-    
+    this.sharedService.stepStatusChanged.subscribe(() => {
+      this.timeLineDatosPersonales = this.sharedService.getTimeLineDatosPersonales();
+      this.timeLineCobertura = this.sharedService.getTimeLineCobertura();
+      this.timeLineBiometriaFacial = this.sharedService.getTimeLineBiometriaFacial();
+      this.timeLineInstalacion = this.sharedService.getTimeLineInstalacion();
+
+      this.timeLineActivo1 = this.sharedService.getTimeLineActivo1();
+      this.timeLineActivo2 = this.sharedService.getTimeLineActivo2();
+      this.timeLineActivo3 = this.sharedService.getTimeLineActivo3();
+      this.timeLineActivo4 = this.sharedService.getTimeLineActivo4();
+    });
   }
 
   public ngOnInit(): void {
     this.updateResponsiveLayout();
     window.addEventListener('resize', this.updateResponsiveLayout.bind(this));
-
-    this.timeLineDatosPersonales = this.sharedService.getTimeLineDatosPersonales();
-    this.timeLineCobertura = this.sharedService.getTimeLineCobertura();
-    this.timeLineBiometriaFacial = this.sharedService.getTimeLineBiometriaFacial();
-    this.timeLineInstalacion = this.sharedService.getTimeLineInstalacion();
-
-    this.timeLineActivo1 = this.sharedService.getTimeLineActivo1();
-    this.timeLineActivo2 = this.sharedService.getTimeLineActivo2();
-    this.timeLineActivo3 = this.sharedService.getTimeLineActivo3();
-    this.timeLineActivo4 = this.sharedService.getTimeLineActivo4();
   }
 
   updateResponsiveLayout() {

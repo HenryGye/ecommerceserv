@@ -28,6 +28,9 @@ export class BiometriaFacialComponent implements OnInit {
     this.sharedService.setTimeLineDatosPersonales(true);
     this.sharedService.setTimeLineBiometriaFacial(true);
     this.sharedService.setTimeLineActivo3(true);
+    this.sharedService.setTimeLineActivo1(false);
+    this.sharedService.setTimeLineActivo2(false);
+    this.sharedService.setTimeLineActivo4(false);
   }
 
   ngOnInit(): void {

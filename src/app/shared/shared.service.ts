@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -7,6 +7,8 @@ import { BehaviorSubject, Observable } from 'rxjs';
 export class SharedService {
   private direccionSubject = new BehaviorSubject<string>('');
   private resultadoDireccionSubject = new BehaviorSubject<string>('');
+  private stepStatusChangedSource = new Subject<void>();
+  stepStatusChanged = this.stepStatusChangedSource.asObservable();
   private timeLineDatosPersonales: boolean = false;
   private timeLineCobertura: boolean = false;
   private timeLineBiometriaFacial: boolean = false;
@@ -19,6 +21,7 @@ export class SharedService {
 
   setTimeLineDatosPersonales(value: boolean): void {
     this.timeLineDatosPersonales = value;
+    this.stepStatusChangedSource.next();
   }
 
   getTimeLineDatosPersonales(): boolean {
@@ -27,6 +30,7 @@ export class SharedService {
 
   setTimeLineCobertura(value: boolean): void {
     this.timeLineCobertura = value;
+    this.stepStatusChangedSource.next();
   }
 
   getTimeLineCobertura(): boolean {
@@ -35,6 +39,7 @@ export class SharedService {
 
   setTimeLineBiometriaFacial(value: boolean): void {
     this.timeLineBiometriaFacial = value;
+    this.stepStatusChangedSource.next();
   }
 
   getTimeLineBiometriaFacial(): boolean {
@@ -43,6 +48,7 @@ export class SharedService {
 
   setTimeLineInstalacion(value: boolean): void {
     this.timeLineInstalacion = value;
+    this.stepStatusChangedSource.next();
   }
 
   getTimeLineInstalacion(): boolean {
@@ -51,6 +57,7 @@ export class SharedService {
 
   setTimeLineActivo1(value: boolean): void {
     this.timeLineActivo1 = value;
+    this.stepStatusChangedSource.next();
   }
 
   getTimeLineActivo1(): boolean {
@@ -59,6 +66,7 @@ export class SharedService {
 
   setTimeLineActivo2(value: boolean): void {
     this.timeLineActivo2 = value;
+    this.stepStatusChangedSource.next();
   }
 
   getTimeLineActivo2(): boolean {
@@ -67,6 +75,7 @@ export class SharedService {
 
   setTimeLineActivo3(value: boolean): void {
     this.timeLineActivo3 = value;
+    this.stepStatusChangedSource.next();
   }
 
   getTimeLineActivo3(): boolean {
@@ -75,6 +84,7 @@ export class SharedService {
 
   setTimeLineActivo4(value: boolean): void {
     this.timeLineActivo4 = value;
+    this.stepStatusChangedSource.next();
   }
 
   getTimeLineActivo4(): boolean {

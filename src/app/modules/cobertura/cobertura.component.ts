@@ -22,6 +22,9 @@ export class CoberturaComponent implements OnInit {
     private routerparams: Router) {
     this.sharedService.setTimeLineCobertura(true);
     this.sharedService.setTimeLineActivo2(true);
+    this.sharedService.setTimeLineActivo1(false);
+    this.sharedService.setTimeLineActivo3(false);
+    this.sharedService.setTimeLineActivo4(false);
     this.initializeForm();
   }
 
@@ -37,9 +40,11 @@ export class CoberturaComponent implements OnInit {
   continuar() {
     if (this.form != undefined && this.form.valid) {
       console.log('click');
-      this.routerparams.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-        this.routerparams.navigate(['compra-en-linea/datos-personales']);
-      });
+      // this.routerparams.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+      //   this.routerparams.navigate(['compra-en-linea/datos-personales']);
+      // });
+      // this.routerparams.navigate(['compra-en-linea/datos-personales'], {state:{active:true}});
+      this.routerparams.navigate(['compra-en-linea/datos-personales']);
     }
   }
 

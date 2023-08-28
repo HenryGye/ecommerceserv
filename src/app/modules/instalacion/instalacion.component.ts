@@ -19,6 +19,9 @@ export class InstalacionComponent {
     this.sharedService.setTimeLineBiometriaFacial(true);
     this.sharedService.setTimeLineInstalacion(true);
     this.sharedService.setTimeLineActivo4(true);
+    this.sharedService.setTimeLineActivo3(false);
+    this.sharedService.setTimeLineActivo1(false);
+    this.sharedService.setTimeLineActivo2(false);
   }
 
   continuar() {
