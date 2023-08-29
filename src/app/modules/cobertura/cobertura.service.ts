@@ -6,7 +6,7 @@ import { Result } from 'src/app/interfaces/result';
 
 const API_KEY = environment.API_KEY; 
 const API_MAIN = environment.MAIN_URL;
-const API_COBERTURAS = environment.API_COBERTURAS;
+const API_CONSULTAR_COBERTURA = environment.API_CONSULTAR_COBERTURA;
 
 @Injectable({
   providedIn: 'root'
@@ -27,6 +27,6 @@ export class CoberturaService {
 
   postConsultarCobertura(body: CoberturaRequest){
     const headers = this.createHeader();
-    return this.http.post<Result<CoberturaResponse>>(`${API_MAIN + API_COBERTURAS}`, body, { headers });
+    return this.http.post<Result<CoberturaResponse>>(`${API_MAIN + API_CONSULTAR_COBERTURA}`, body, { headers });
   }
 }
