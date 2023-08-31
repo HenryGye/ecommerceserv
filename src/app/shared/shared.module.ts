@@ -7,6 +7,7 @@ import { CalendarioHorarioComponent } from './calendario-horario/calendario-hora
 import { SharedService } from './shared.service';
 import { GoogleMapsModule } from '@angular/google-maps';
 import { GoogleMapComponent } from './google-map/google-map.component';
+import { PlanHfcComponent } from './plan-hfc/plan-hfc.component';
 
 @NgModule({
   imports: [
@@ -18,7 +19,8 @@ import { GoogleMapComponent } from './google-map/google-map.component';
     ResumenPedidoComponent,
     CalendarioFechaComponent,
     CalendarioHorarioComponent,
-    GoogleMapComponent
+    GoogleMapComponent,
+    PlanHfcComponent
   ],
   exports: [
     CommonModule,
@@ -26,7 +28,8 @@ import { GoogleMapComponent } from './google-map/google-map.component';
     ResumenPedidoComponent,
     CalendarioFechaComponent,
     CalendarioHorarioComponent,
-    GoogleMapComponent
+    GoogleMapComponent,
+    PlanHfcComponent
   ],
   providers: [
     SharedService

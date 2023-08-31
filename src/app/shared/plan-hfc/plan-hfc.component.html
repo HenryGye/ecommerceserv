@@ -1,0 +1,29 @@
+<div class="">
+  <div class="mx-auto p-4 w-full">
+    <div class="flex flex-col md:flex-row justify-center items-start gap-3">
+      <div class="bg-[#FFFFFF] shadow-md w-full md:w-[285px] rounded-[14px]" *ngFor="let plan of planes">
+        <div class="px-9 py-6">
+          <div class="flex flex-col items-center gap-3">
+            <span class="text-xl font-bold text-[#6C2E83]">{{plan.titulo}}</span>
+            <div class="flex">
+              <span class="font-bold text-6xl text-[#6C2E83]">{{plan.precioEntero}}</span>
+              <div class="flex flex-col text-[#6C2E83]">
+                <span class="font-bold text-[22px]">{{plan.precioDecimal}}</span>
+                <span class="font-medium">{{plan.periodicidad}}</span>
+              </div>
+            </div>
+            <img [src]="plan.img" alt="xtrim" class="">
+            <span class="font-montserrat font-normal text-[17px] text-center">{{plan.descripcion}}</span>
+            <button type="" class="rounded-md px-4 py-2 btn-continuar">¡Lo quiero!</button>
+            <button type="" class="mt-2 text-sm font-bold text-[#83378F] flex">
+              <span>Ver detalles</span>
+              <svg class="h-5 w-5 mt-[1px]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 0 1 1.414 0L10 10.586l3.293-3.293a1 1 0 1 1 1.414 1.414l-4 4a1 1 0 0 1-1.414 0l-4-4a1 1 0 0 1 0-1.414z"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
