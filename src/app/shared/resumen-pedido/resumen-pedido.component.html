@@ -1,16 +1,16 @@
 <div class="p-9">
   <div class="flex flex-col gap-3">
     <div>
-      <span class="text-xl font-bold text-[#3F1B6A]">Resumen del pedido</span>
+      <span class="text-xl font-bold text-[#3F1B6A]">{{dataResumen.titulo}}</span>
     </div>
     <div>
       <div class="flex flex-col items-end">
-        <div class="text-[17.5px] font-bold text-[#828894]">Super Fibra Óptica</div>
+        <div class="text-[17.5px] font-bold text-[#828894]">{{dataResumen.titulo2}}</div>
         <div class="flex">
-          <span class="font-bold text-6xl text-[#6C2E83]">$22</span>
+          <span class="font-bold text-6xl text-[#6C2E83]">{{dataResumen.precioEntero}}</span>
           <div class="flex flex-col text-[#6C2E83]">
-            <span class="font-bold text-[22px]">.31</span>
-            <span class="font-medium">/mes</span>
+            <span class="font-bold text-[22px]">{{dataResumen.precioDecimal}}</span>
+            <span class="font-medium">{{dataResumen.periodicidad}}</span>
           </div>
         </div>
       </div>
@@ -18,23 +18,23 @@
     <div class="flex flex-col gap-1 font-montserrat">
       <div class="flex gap-2 leading-[13.8px]">
         <img src="assets/img/icon-wifi.png" alt="xtrim" class="w-5 h-5">
-        <span class="font-normal text-[10.5px] text-[#525A6C]">Upgrade a 200 megas por siempre</span>
+        <span class="font-normal text-[10.5px] text-[#525A6C]">{{dataResumen.detalle1}}</span>
       </div>
       <div class="flex gap-2 leading-[13.8px]">
         <img src="assets/img/icon-config.png" alt="xtrim" class="w-5 h-5">
-        <span class="font-normal text-[10.5px] text-[#525A6C]">Instalación sin costo</span>
+        <span class="font-normal text-[10.5px] text-[#525A6C]">{{dataResumen.detalle2}}</span>
       </div>
       <div class="flex gap-2 leading-[13.8px]">
         <img src="assets/img/icon-router.png" alt="xtrim" class="w-5 h-5">
-        <span class="font-normal text-[10.5px] text-[#525A6C]">Equipo WIFI sin costo</span>
+        <span class="font-normal text-[10.5px] text-[#525A6C]">{{dataResumen.detalle3}}</span>
       </div>
       <div class="flex gap-2 leading-[13.8px]">
         <img src="assets/img/icon-xtrim-play.png" alt="xtrim" class="w-5 h-5">
-        <span class="font-normal text-[10.5px] text-[#525A6C]">Xtrim Play gratis</span>
+        <span class="font-normal text-[10.5px] text-[#525A6C]">{{dataResumen.detalle4}}</span>
       </div>
       <div class="flex gap-2 leading-[13.8px]">
         <div class="w-5 h-5"></div>
-        <span class="font-bold text-[9px] leading-[12.19px] text-[#525A6C]">PERMANENCIA DE 24 MESES</span>
+        <span class="font-bold text-[9px] leading-[12.19px] text-[#525A6C]">{{dataResumen.detalle5}}</span>
       </div>
     </div>
   </div>
