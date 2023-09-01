@@ -1,9 +1,9 @@
 export interface Result<T> {
   success: boolean,
-  data: ApiData<T>,
+  data: DataResponse<T>,
 }
 
-export interface ApiData<T> {
+export interface DataResponse<T> {
   data?: T | null,
   code?: number,
   errorCode?: number,
