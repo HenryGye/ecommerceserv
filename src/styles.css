@@ -75,3 +75,25 @@ input:focus-visible, select:focus-visible {
      transform: rotate(1turn);
   }
 }
+
+/* primeng toast */
+.p-toast {
+  opacity: 1 !important;
+}
+
+.p-toast > * {
+  font-family: 'Ubuntu', sans-serif;
+}
+
+.p-toast .p-toast-message .p-toast-message-content {
+  padding: 1rem;
+  border-width: 0 !important;
+  background-color: #F9F9F9 !important;
+}
+
+@media screen and (max-width: 768px) {
+  .p-toast {
+    right: 0 !important;
+    width: 100% !important;
+  }
+}

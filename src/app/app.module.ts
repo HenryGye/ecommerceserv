@@ -5,6 +5,8 @@ import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
+import { PrimengModule } from './primeng.module';
+import { ConfirmationService, MessageService } from 'primeng/api';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -36,9 +38,12 @@ import { InstalacionComponent } from './modules/instalacion/instalacion.componen
     ReactiveFormsModule,
     HttpClientModule,
     AppRoutingModule,
+    PrimengModule,
     SharedModule
   ],
-  providers: [],
+  providers: [
+    MessageService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
