@@ -1,12 +1,8 @@
 export interface Result<T> {
   success: boolean,
-  data: DataResponse<T>,
-}
-
-export interface DataResponse<T> {
-  data?: T | null,
-  code?: number,
-  errorCode?: number,
+  data: T | null,
+  code: number | null,
+  errorCode: number | null,
   externalTransactionId: string,
   internalTransactionId: string,
   message: string,
