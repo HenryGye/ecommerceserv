@@ -60,11 +60,10 @@ export class GoogleMapComponent implements OnInit {
         this.marker.map = this.options;
         this.sharedService.setResultadoDireccion(this.center);
 
+        console.log('result map ', results);
         console.log(this.center);
-        console.log('results ', results);
-        console.log('status ', status);
       } else {
-        this.sharedService.setResultadoDireccion(null);
+        this.sharedService.setResultadoDireccion(-1);
         console.error('No se pudo encontrar la dirección.');
       }
     });
