@@ -25,7 +25,7 @@ export class CoberturaService {
       return headers;
   }
 
-  postConsultarCobertura(body: CoberturaRequest){
+  consultarCobertura(body: CoberturaRequest){
     const headers = this.createHeader();
     return this.http.post<Result<CoberturaResponse>>(`${API_MAIN + API_CONSULTAR_COBERTURA}`, body, { headers });
   }

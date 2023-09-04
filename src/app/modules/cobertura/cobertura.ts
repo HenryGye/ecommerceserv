@@ -1,6 +1,6 @@
 export interface CoberturaRequest {
-  latitude: string,
-  longitude: string
+  latitude: string;
+  longitude: string;
 }
 
 export interface CoberturaResponse {

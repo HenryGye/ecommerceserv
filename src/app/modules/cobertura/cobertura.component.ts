@@ -1,10 +1,12 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { NavigationExtras, Router } from '@angular/router';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { SharedService } from '../../shared/shared.service';
 import { CoberturaService } from './cobertura.service';
 import { CoberturaRequest } from './cobertura';
-import { of, switchMap } from 'rxjs';
+import { filter, of, switchMap } from 'rxjs';
+import { MessageService } from 'primeng/api';
+import { GoogleMapComponent } from 'src/app/shared/google-map/google-map.component';
 
 @Component({
   selector: 'app-cobertura',
@@ -14,9 +16,12 @@ import { of, switchMap } from 'rxjs';
 export class CoberturaComponent implements OnInit {
   form!: FormGroup;
   disabledButton: boolean = false;
+  cobertura: boolean  = true;
+  subSectorId: number | undefined;
 
   constructor(
     private formBuilder: FormBuilder,
+    private messageService: MessageService,
     private sharedService: SharedService,
     private coberturaService: CoberturaService,
     private routerparams: Router) {
@@ -40,11 +45,12 @@ export class CoberturaComponent implements OnInit {
   continuar() {
     if (this.form != undefined && this.form.valid) {
       console.log('click');
-      // this.routerparams.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-      //   this.routerparams.navigate(['compra-en-linea/datos-personales']);
-      // });
-      // this.routerparams.navigate(['compra-en-linea/datos-personales'], {state:{active:true}});
-      this.routerparams.navigate(['compra-en-linea/datos-personales']);
+      this.routerparams.navigate(['compra-en-linea/datos-personales'], {
+        state: {
+          subSectorId: this.subSectorId,
+          direccion: this.form.get('direccion')?.value
+        }
+      });
     }
   }
 
@@ -52,28 +58,37 @@ export class CoberturaComponent implements OnInit {
     this.sharedService.setDireccion(this.form.get('direccion')?.value);
 
     this.sharedService.getResultadoDireccion().pipe(
+      filter((direccion) => !!direccion),
       switchMap(resultado => {
-        if (resultado !== null) {
+        console.log('resultado ', resultado);
+        if (resultado !== -1) {
           let body: CoberturaRequest = {
             latitude: resultado.lat,
             longitude: resultado.lng
           };
-          return this.coberturaService.postConsultarCobertura(body);
+          return this.coberturaService.consultarCobertura(body);
         }
-        // Si no hay resultado, retorna un observable vacío
         return of(null);
       })
     ).subscribe({
       next: (data) => {
+        console.log('data ', data);
         if (data !== null) {
-          console.log('data ', data);
+          if (data?.success) {
+            console.log('aquiiii ', data);
+            this.cobertura = true;
+            this.disabledButton = true;
+            this.subSectorId = data.data?.subSectorId;
+          }
+        } else {
+          this.cobertura = false;
         }
       },
       error: (error) => {
-        console.log(error);
+        console.log('error aqui', error);
+        this.messageService.add({severity:'error', detail: '¡Ha ocurrido un error. Por favor intente nuevamente!'});
+        this.disabledButton = false;
       }
     });
-
-    this.disabledButton = true;
   }
 }
