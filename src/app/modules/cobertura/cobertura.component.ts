@@ -15,9 +15,8 @@ import { GoogleMapComponent } from 'src/app/shared/google-map/google-map.compone
 })
 export class CoberturaComponent implements OnInit {
   form!: FormGroup;
-  disabledButton: boolean = false;
   cobertura: boolean  = true;
-  subSectorId: number | undefined;
+  subSectorId!: number;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -31,6 +30,9 @@ export class CoberturaComponent implements OnInit {
     this.sharedService.setTimeLineActivo3(false);
     this.sharedService.setTimeLineActivo4(false);
     this.initializeForm();
+
+    const direccionString = localStorage.getItem('direccion');
+    this.form.get('direccion')?.patchValue(direccionString !== null ? direccionString : null);
   }
 
   ngOnInit(): void {
@@ -45,12 +47,7 @@ export class CoberturaComponent implements OnInit {
   continuar() {
     if (this.form != undefined && this.form.valid) {
       console.log('click');
-      this.routerparams.navigate(['compra-en-linea/datos-personales'], {
-        state: {
-          subSectorId: this.subSectorId,
-          direccion: this.form.get('direccion')?.value
-        }
-      });
+      this.routerparams.navigate(['compra-en-linea/datos-personales']);
     }
   }
 
@@ -62,10 +59,7 @@ export class CoberturaComponent implements OnInit {
       switchMap(resultado => {
         console.log('resultado ', resultado);
         if (resultado !== -1) {
-          let body: CoberturaRequest = {
-            latitude: resultado.lat,
-            longitude: resultado.lng
-          };
+          let body: CoberturaRequest = { latitude: resultado.lat, longitude: resultado.lng };
           return this.coberturaService.consultarCobertura(body);
         }
         return of(null);
@@ -77,8 +71,10 @@ export class CoberturaComponent implements OnInit {
           if (data?.success) {
             console.log('aquiiii ', data);
             this.cobertura = true;
-            this.disabledButton = true;
-            this.subSectorId = data.data?.subSectorId;
+            this.subSectorId = data.data?.subSectorId || 0;
+
+            localStorage.setItem('subSectorId', this.subSectorId.toString());
+            localStorage.setItem('direccion', this.form.get('direccion')?.value);
           }
         } else {
           this.cobertura = false;
@@ -87,7 +83,7 @@ export class CoberturaComponent implements OnInit {
       error: (error) => {
         console.log('error aqui', error);
         this.messageService.add({severity:'error', detail: '¡Ha ocurrido un error. Por favor intente nuevamente!'});
-        this.disabledButton = false;
+        localStorage.clear();
       }
     });
   }
