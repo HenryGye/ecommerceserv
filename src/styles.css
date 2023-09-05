@@ -95,6 +95,18 @@ input:focus-visible, select:focus-visible {
   margin: 0 !important;
 }
 
+.p-toast .p-toast-message.p-toast-message-info {
+  background: #e9e9ff !important;
+  border: solid #3F1B6A !important;
+  border-width: 0 0 0 6px !important;
+  color: #3F1B6A !important;
+}
+
+.p-toast .p-toast-message.p-toast-message-info .p-toast-message-icon,
+.p-toast .p-toast-message.p-toast-message-info .p-toast-icon-close {
+  color: #3F1B6A !important;
+}
+
 @media screen and (max-width: 768px) {
   .p-toast {
     right: 0 !important;
