@@ -41,13 +41,6 @@ export class DatosPersonalesComponent implements OnInit {
     this.sharedService.setTimeLineActivo4(false);
     this.initializeForm();
 
-    // let state = this.routerparams.getCurrentNavigation()?.extras.state;
-    // // let state = history.state;
-    // if (state != undefined) {
-    //   this.subSectorId = state['subSectorId'];
-    //   this.direccionTmp = state['direccion'];
-    // }
-
     const formularioString = localStorage.getItem('formulario');
     
     if (formularioString) {
@@ -102,68 +95,37 @@ export class DatosPersonalesComponent implements OnInit {
     if (this.form != undefined && this.form.valid) {
       this.spinner = true;
       this.consultarDatosCliente().subscribe({
-        next: (dataCliente) => {
-          console.log('dataCliente ', dataCliente);
+        next: () => {
           this.consultarBuroCliente().subscribe({
             next: (dataBuro) => {
-              console.log('dataBuro ', dataBuro);
               this.consultarTokenCodigoDactilar(dataBuro).subscribe({
-                next: (dataToken) => {
-                  console.log('dataToken ', dataToken);
-                  this.guardarAceptacionContrato();
-                }, 
-                error: (error) => {
-                  console.error('Error en consultarTokenCodigoDactilar:', error);
-                }
+                next: () => this.guardarAceptacionContrato(), 
+                error: (error) => console.error('Error en consultarTokenCodigoDactilar:', error)
               });
             }, 
-            error: (error) => {
-              console.error('Error en consultarBuroCliente:', error);
-            }
+            error: (error) => console.error('Error en consultarBuroCliente:', error)
           });
         }, 
-        error: (error) => {
-          console.error('Error en consultarDatosCliente:', error);
-        }
+        error: (error) => console.error('Error en consultarDatosCliente:', error)
       });
     }
   }
 
   consultarCallePrincipal() {
-    let body: ConsultaDirDicTitanRequest = {
-      id: this.subSectorId.toString(),
-      tipo: '19'
-    };
+    let body: ConsultaDirDicTitanRequest = { id: this.subSectorId.toString(), tipo: '19' };
     this.datosPersonalesService.consultarCallePrincipalSecundaria(body)
     .subscribe({
-      next: (data) => {
-        if (data.success) {
-          this.listaCallePrincipal = data.dataAddress;
-          console.log('listaCallePrincipal ', this.listaCallePrincipal);
-        }
-      },
-      error: (error) => {
-        console.log(error);
-      }
+      next: (data) => this.listaCallePrincipal = (data.success) ? data.dataAddress : [],
+      error: (error) => console.log(error)
     });
   }
 
   consultarCalleSecundaria() {
-    let body: ConsultaDirDicTitanRequest = {
-      id: this.form.get('callePrincipal')?.value,
-      tipo: '20'
-    };
+    let body: ConsultaDirDicTitanRequest = { id: this.form.get('callePrincipal')?.value, tipo: '20' };
     this.datosPersonalesService.consultarCallePrincipalSecundaria(body)
     .subscribe({
-      next: (data) => {
-        if (data.success) {
-          this.listaCalleSecundaria = data.dataAddress;
-          console.log('listaCalleSecundaria ', this.listaCalleSecundaria);
-        }
-      },
-      error: (error) => {
-        console.log(error);
-      }
+      next: (data) => this.listaCalleSecundaria = (data.success) ? data.dataAddress : [],
+      error: (error) => console.log(error)
     });
   }
 
@@ -181,6 +143,7 @@ export class DatosPersonalesComponent implements OnInit {
     return new Observable((observer) => {
       this.datosPersonalesService.consultarDatosClientes(body).subscribe({
         next: (data) => {
+          console.log('dataCliente ', data);
           if (data.success) {
             this.messageService.add({severity: 'info', detail: '¡Cliente ya existe. No puede continuar!'});
             observer.complete();
@@ -201,6 +164,7 @@ export class DatosPersonalesComponent implements OnInit {
     return new Observable((observer) => {
       this.datosPersonalesService.consultarBuroCliente(body).subscribe({
         next: (data) => {
+          console.log('dataBuro ', data);
           if (data.success) {
             if (data.data.score_v4 !== 'S/R') {
               observer.next(data);
@@ -232,13 +196,13 @@ export class DatosPersonalesComponent implements OnInit {
     return new Observable((observer) => {
       this.datosPersonalesService.consultarTokenCodigoDactilar(body).subscribe({
         next: (data) => {
+          console.log('dataToken ', data);
           if (data.success) {
             this.fingerCode = data.message;
             observer.next(data);
             observer.complete();
           } else {
             this.messageService.add({severity: 'error', detail: '¡No se pudo obtener token de código dactilar. Intente nuevamente!'});
-            // observer.next(data);
             observer.complete();
           }
         },
@@ -255,11 +219,11 @@ export class DatosPersonalesComponent implements OnInit {
         contract: "",
         direction: this.form.get('direccion')?.value,
         email: this.form.get('email')?.value,
-        fingerCode: "74b0f248-7ea2-44c1-bd6c-53a0b72ea37f", //this.fingerCode
+        fingerCode: this.fingerCode,
         identificationNumber: this.form.get('cedula')?.value,
-        name: "GENESIS NARCISA", // this.separarNombre(this.customerName).nombres
+        name: this.separarNombre(this.customerName).nombres,
         phone: this.form.get('celular')?.value,
-        surname: "GAMBOA CEDEÑO", // this.separarNombre(this.customerName).apellidos
+        surname: this.separarNombre(this.customerName).apellidos,
         transactionId: "48841",
         typeContract: "NUEVO",
         typeDoc: "500022"
