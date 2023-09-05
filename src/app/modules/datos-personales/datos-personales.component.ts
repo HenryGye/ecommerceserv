@@ -26,6 +26,8 @@ export class DatosPersonalesComponent implements OnInit {
   customerName!: string | '';
   fingerCode!: string | '';
 
+  spinner: boolean = false;
+
   constructor(private formBuilder: FormBuilder,
     private sharedService: SharedService,
     private messageService: MessageService,
@@ -98,6 +100,7 @@ export class DatosPersonalesComponent implements OnInit {
 
   submitForm() {
     if (this.form != undefined && this.form.valid) {
+      this.spinner = true;
       this.consultarDatosCliente().subscribe({
         next: (dataCliente) => {
           console.log('dataCliente ', dataCliente);
@@ -172,62 +175,6 @@ export class DatosPersonalesComponent implements OnInit {
     }
   }
 
-  // consultarDatosCliente() {
-  //   let body: DatosPersonalesRequest = { dni: this.form.get('cedula')?.value };
-  //   this.datosPersonalesService.consultarDatosClientes(body)
-  //   .subscribe({
-  //     next: (data) => {
-  //       console.log('data ', data);
-  //       if (data.success) {
-  //         this.messageService.add({severity:'info', detail: '¡Cliente ya existe. No puede continuar con el flujo!'});
-  //         return;
-  //         // this.routerparams.navigate(['compra-en-linea/biometria-facial']);
-  //       } else {
-  //         this.messageService.add({severity:'error', detail: data.data.message});
-  //       }
-  //     },
-  //     error: (error) => {
-  //       console.log(error);
-  //     }
-  //   });
-  // }
-
-  // consultarBuroCliente() {
-  //   let body: ConsutarBuroClienteRequest = {
-  //     identificationNumber: this.form.get('cedula')?.value
-  //   };
-
-  //   this.datosPersonalesService.consultarBuroCliente(body)
-  //   .subscribe({
-  //     next: (data) => {
-  //       if (data.success) return data.data;
-  //     },
-  //     error: (error) => {
-  //       console.log(error);
-  //     }
-  //   });
-  // }
-
-  // consultarTokenCodigoDactilar() {
-  //   let body: TokenCodigoDactilarRequest = {
-  //     customerName: 'x',
-  //     customerUsername: 'x',
-  //     fingerCode: this.form.get('codigoDactilar')?.value,
-  //     identificationNumber: this.form.get('cedula')?.value
-  //   };
-  //   this.datosPersonalesService.consultarTokenCodigoDactilar(body)
-  //   .subscribe({
-  //     next: (data) => {
-  //       if (data.success) {
-
-  //       }
-  //     },
-  //     error: (error) => {
-  //       console.log(error);
-  //     }
-  //   });
-  // }
-
   consultarDatosCliente(): Observable<any> {
     let body: DatosPersonalesRequest = { dni: this.form.get('cedula')?.value };
   
@@ -242,7 +189,8 @@ export class DatosPersonalesComponent implements OnInit {
             observer.next(data);
           }
         },
-        error: (error) => observer.error(error)
+        error: (error) => observer.error(error),
+        complete: () => this.spinner = false
       });
     });
   }
@@ -265,7 +213,8 @@ export class DatosPersonalesComponent implements OnInit {
             observer.complete();
           }
         },
-        error: (error) => observer.error(error)
+        error: (error) => observer.error(error),
+        complete: () => this.spinner = false
       });
     });
   }
@@ -293,7 +242,8 @@ export class DatosPersonalesComponent implements OnInit {
             observer.complete();
           }
         },
-        error: (error) => observer.error(error)
+        error: (error) => observer.error(error),
+        complete: () => this.spinner = false
       });
     });
   }
@@ -372,8 +322,16 @@ export class DatosPersonalesComponent implements OnInit {
     this.datosPersonalesService.guardarAceptacionContrato(body).subscribe({
       next: (data) => {
         console.log(data);
+        if (data.success) {
+          localStorage.setItem('finger_code_uuid', data.finger_code_uuid);
+          localStorage.setItem('url_biometria', data.url_biometria);
+          localStorage.setItem('url_redirect', data.url_redirect);
+
+          this.routerparams.navigate(['compra-en-linea/biometria-facial']);
+        }
       },
       error: (error) => {
+        this.messageService.add({severity: 'error', detail: '¡Ha ocurrido un error. Por favor intente nuevamente!'});
         console.log(error);
       }
     });
