@@ -8,6 +8,7 @@ import { SharedService } from './shared.service';
 import { GoogleMapsModule } from '@angular/google-maps';
 import { GoogleMapComponent } from './google-map/google-map.component';
 import { PlanHfcComponent } from './plan-hfc/plan-hfc.component';
+import { LoadingSpinnerComponent } from './loading-spinner/loading-spinner.component';
 
 @NgModule({
   imports: [
@@ -20,7 +21,8 @@ import { PlanHfcComponent } from './plan-hfc/plan-hfc.component';
     CalendarioFechaComponent,
     CalendarioHorarioComponent,
     GoogleMapComponent,
-    PlanHfcComponent
+    PlanHfcComponent,
+    LoadingSpinnerComponent
   ],
   exports: [
     CommonModule,
@@ -29,7 +31,8 @@ import { PlanHfcComponent } from './plan-hfc/plan-hfc.component';
     CalendarioFechaComponent,
     CalendarioHorarioComponent,
     GoogleMapComponent,
-    PlanHfcComponent
+    PlanHfcComponent,
+    LoadingSpinnerComponent
   ],
   providers: [
     SharedService
