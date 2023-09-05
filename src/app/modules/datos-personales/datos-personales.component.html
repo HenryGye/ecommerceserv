@@ -2,7 +2,7 @@
   <div class="mx-auto p-4 w-full md:w-[75%]">
     <div class="flex flex-col md:flex-row justify-center items-start gap-3">
       <div class="bg-[#F9F9F9] w-full md:w-[75%] rounded-2xl">
-        <form class="space-y-4 p-9" [formGroup]="form" (ngSubmit)="submitForm()">
+        <form class="space-y-4 p-9" [formGroup]="form">
           <span class="text-xl font-bold text-[#3F1B6A]">Comencemos con tus datos</span>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div class="w-full text-base font-bold text-[#6A7180] col-span-2">Datos personales</div>
@@ -33,11 +33,19 @@
             </div>
             <div class="col-span-2">
               <label for="inputCallePrincipal" class="text-[14px] font-bold text-[#6A7180]">Calle principal</label>
-              <input type="text" class="w-full px-3 py-2 border rounded-md" id="inputCallePrincipal" placeholder="" formControlName="callePrincipal">
+              <!--<input type="text" class="w-full px-3 py-2 border rounded-md" id="inputCallePrincipal" placeholder="" formControlName="callePrincipal">-->
+              <select id="inputCallePrincipal" class="w-full px-3 py-2 border rounded-md" formControlName="callePrincipal" (change)="cargarListaCalleSecundaria()">
+                <option value="" selected>Seleccionar</option>
+                <option [value]="calle.Id" *ngFor="let calle of listaCallePrincipal">{{ calle.Name }}</option>
+              </select>
             </div>
             <div class="col-span-2">
               <label for="inputCalleSecundaria" class="text-[14px] font-bold text-[#6A7180]">Calle secundaria</label>
-              <input type="text" class="w-full px-3 py-2 border rounded-md" id="inputCalleSecundaria" placeholder="" formControlName="calleSecundaria">
+              <!--<input type="text" class="w-full px-3 py-2 border rounded-md" id="inputCalleSecundaria" placeholder="" formControlName="calleSecundaria">-->
+              <select id="inputCalleSecundaria" class="w-full px-3 py-2 border rounded-md" formControlName="calleSecundaria">
+                <option value="" selected>Seleccionar</option>
+                <option [value]="calle.Id" *ngFor="let calle of listaCalleSecundaria">{{ calle.Name }}</option>
+              </select>
             </div>
             <div class="col-span-2">
               <div class="flex flex-col md:flex-row gap-3">
@@ -64,7 +72,7 @@
               </div>
             </div>
             <div class="col-span-2">
-              <button type="submit" class="rounded-md px-4 py-2 btn-continuar" [disabled]="!form.valid">Continuar</button>
+              <button type="button" class="rounded-md px-4 py-2 btn-continuar" [disabled]="!form.valid" (click)="submitForm()">Continuar</button>
             </div>
           </div>
         </form>
