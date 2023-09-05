@@ -67,17 +67,17 @@ export class CoberturaComponent implements OnInit {
     ).subscribe({
       next: (data) => {
         console.log('data ', data);
-        if (data !== null) {
-          if (data?.success) {
-            console.log('aquiiii ', data);
-            this.cobertura = true;
-            this.subSectorId = data.data?.subSectorId || 0;
-
-            localStorage.setItem('subSectorId', this.subSectorId.toString());
-            localStorage.setItem('direccion', this.form.get('direccion')?.value);
-          }
-        } else {
+        if (data === null || !data.success) {
           this.cobertura = false;
+          return;
+        }
+
+        if (data.success) {
+          console.log('success ', data);
+          this.cobertura = true;
+          this.subSectorId = data.data?.subSectorId || 0;
+          localStorage.setItem('subSectorId', this.subSectorId.toString());
+          localStorage.setItem('direccion', this.form.get('direccion')?.value);
         }
       },
       error: (error) => {
