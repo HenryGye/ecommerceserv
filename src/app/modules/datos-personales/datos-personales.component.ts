@@ -4,8 +4,9 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { SharedService } from '../../shared/shared.service';
 import { filter } from 'rxjs/operators';
 import { DatosPersonalesService } from './datos-personales.service';
-import { ConsultaDirDicTitanRequest, DatosPersonalesRequest, TokenCodigoDactilarRequest } from './datos-personales';
+import { ConsultaDirDicTitanRequest, ConsultarBuroClienteRequest, DatosPersonalesRequest, TokenCodigoDactilarRequest } from './datos-personales';
 import { MessageService } from 'primeng/api';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-datos-personales',
@@ -81,11 +82,30 @@ export class DatosPersonalesComponent implements OnInit {
 
   submitForm() {
     if (this.form != undefined && this.form.valid) {
-      // this.routerparams.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-      //   this.routerparams.navigate(['compra-en-linea/biometria-facial']);
-      // });
-      console.log('click');
-      this.consultarDatosCliente();
+      this.consultarDatosCliente().subscribe({
+        next: (dataCliente) => {
+          console.log('dataCliente ', dataCliente);
+          this.consultarBuroCliente().subscribe({
+            next: (dataBuro) => {
+              console.log('dataBuro ', dataBuro);
+              this.consultarTokenCodigoDactilar(dataBuro).subscribe({
+                next: (dataToken) => {
+                  console.log('dataToken ', dataToken);
+                }, 
+                error: (error) => {
+                  console.error('Error en consultarTokenCodigoDactilar:', error);
+                }
+              });
+            }, 
+            error: (error) => {
+              console.error('Error en consultarBuroCliente:', error);
+            }
+          });
+        }, 
+        error: (error) => {
+          console.error('Error en consultarDatosCliente:', error);
+        }
+      });
     }
   }
 
@@ -135,49 +155,125 @@ export class DatosPersonalesComponent implements OnInit {
     }
   }
 
-  consultarDatosCliente() {
+  // consultarDatosCliente() {
+  //   let body: DatosPersonalesRequest = { dni: this.form.get('cedula')?.value };
+  //   this.datosPersonalesService.consultarDatosClientes(body)
+  //   .subscribe({
+  //     next: (data) => {
+  //       console.log('data ', data);
+  //       if (data.success) {
+  //         this.messageService.add({severity:'info', detail: '¡Cliente ya existe. No puede continuar con el flujo!'});
+  //         return;
+  //         // this.routerparams.navigate(['compra-en-linea/biometria-facial']);
+  //       } else {
+  //         this.messageService.add({severity:'error', detail: data.data.message});
+  //       }
+  //     },
+  //     error: (error) => {
+  //       console.log(error);
+  //     }
+  //   });
+  // }
+
+  // consultarBuroCliente() {
+  //   let body: ConsutarBuroClienteRequest = {
+  //     identificationNumber: this.form.get('cedula')?.value
+  //   };
+
+  //   this.datosPersonalesService.consultarBuroCliente(body)
+  //   .subscribe({
+  //     next: (data) => {
+  //       if (data.success) return data.data;
+  //     },
+  //     error: (error) => {
+  //       console.log(error);
+  //     }
+  //   });
+  // }
+
+  // consultarTokenCodigoDactilar() {
+  //   let body: TokenCodigoDactilarRequest = {
+  //     customerName: 'x',
+  //     customerUsername: 'x',
+  //     fingerCode: this.form.get('codigoDactilar')?.value,
+  //     identificationNumber: this.form.get('cedula')?.value
+  //   };
+  //   this.datosPersonalesService.consultarTokenCodigoDactilar(body)
+  //   .subscribe({
+  //     next: (data) => {
+  //       if (data.success) {
+
+  //       }
+  //     },
+  //     error: (error) => {
+  //       console.log(error);
+  //     }
+  //   });
+  // }
+
+  consultarDatosCliente(): Observable<any> {
     let body: DatosPersonalesRequest = { dni: this.form.get('cedula')?.value };
-    this.datosPersonalesService.consultarDatosClientes(body)
-    .subscribe({
-      next: (data) => {
-        console.log('data ', data);
-        if (data.success) {
-          this.messageService.add({severity:'info', detail: '¡Cliente ya existe. No puede continuar con el flujo!'});
-          return;
-          // this.routerparams.navigate(['compra-en-linea/biometria-facial']);
-        } else {
-          this.messageService.add({severity:'error', detail: data.data.message});
-        }
-      },
-      error: (error) => {
-        console.log(error);
-      }
+  
+    return new Observable((observer) => {
+      this.datosPersonalesService.consultarDatosClientes(body).subscribe({
+        next: (data) => {
+          if (data.success) {
+            this.messageService.add({severity: 'info', detail: '¡Cliente ya existe. No puede continuar!'});
+            observer.complete();
+          } else {
+            // this.messageService.add({severity: 'error', detail: data.data.message});
+            observer.next(data);
+          }
+        },
+        error: (error) => observer.error(error)
+      });
     });
   }
-
-  consultarTokenCodigoDactilar() {
-    let body: TokenCodigoDactilarRequest = {
-      customerName: 'x',
-      customerUsername: 'x',
-      fingerCode: this.form.get('codigoDactilar')?.value,
-      identificationNumber: this.form.get('cedula')?.value
-    };
-    this.datosPersonalesService.consultarTokenCodigoDactilar(body)
-    .subscribe({
-      next: (data) => {
-        let res: any = data;
-        if (res) {
-          if (res.CodigoError === 0) {
-            // this.listaCalleSecundaria = res.Objeto;
+  
+  consultarBuroCliente(): Observable<any> {
+    let body: ConsultarBuroClienteRequest = { identificationNumber: this.form.get('cedula')?.value };
+  
+    return new Observable((observer) => {
+      this.datosPersonalesService.consultarBuroCliente(body).subscribe({
+        next: (data) => {
+          if (data.success) {
+            if (data.data.score_v4 !== 'S/R') {
+              observer.next(data);
+            } else {
+              this.messageService.add({severity: 'error', detail: '¡Cliente no tiene historial crediticio. No puede continuar!'});
+              observer.complete();
+            }
+          } else {
+            this.messageService.add({severity: 'error', detail: data.data});
+            observer.complete();
           }
-          
-          console.log('consultarTokenCodigoDactilar ', data);
-        } else {
-        }
-      },
-      error: (error) => {
-        console.log(error);
-      }
+        },
+        error: (error) => observer.error(error)
+      });
+    });
+  }
+  
+  consultarTokenCodigoDactilar(data: any): Observable<any> {
+    let body: TokenCodigoDactilarRequest = {
+      customerName: data.data.customerName,
+      customerUsername: data.data.customerName,
+      fingerCode: this.form.get('codigoDactilar')?.value,
+      identificationNumber: this.form.get('cedula')?.value,
+    };
+  
+    return new Observable((observer) => {
+      this.datosPersonalesService.consultarTokenCodigoDactilar(body).subscribe({
+        next: (data) => {
+          if (data.success) {
+            observer.next(data);
+            observer.complete();
+          } else {
+            this.messageService.add({severity: 'error', detail: '¡No se pudo obtener token de código dactilar. Intente nuevamente!'});
+            observer.complete();
+          }
+        },
+        error: (error) => observer.error(error)
+      });
     });
   }
 }
