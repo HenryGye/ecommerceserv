@@ -107,7 +107,6 @@ export class DatosPersonalesComponent implements OnInit {
               this.consultarTokenCodigoDactilar(dataBuro).subscribe({
                 next: (dataToken) => {
                   console.log('dataToken ', dataToken);
-                  this.fingerCode = dataToken.message;
                   this.guardarAceptacionContrato();
                 }, 
                 error: (error) => {
@@ -285,11 +284,12 @@ export class DatosPersonalesComponent implements OnInit {
       this.datosPersonalesService.consultarTokenCodigoDactilar(body).subscribe({
         next: (data) => {
           if (data.success) {
+            this.fingerCode = data.message;
             observer.next(data);
             observer.complete();
           } else {
             this.messageService.add({severity: 'error', detail: '¡No se pudo obtener token de código dactilar. Intente nuevamente!'});
-            observer.next(data);
+            // observer.next(data);
             observer.complete();
           }
         },
