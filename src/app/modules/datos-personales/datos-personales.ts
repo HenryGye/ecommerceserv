@@ -73,3 +73,73 @@ export interface Cards {
   totalDue: number;
   transmitter: string;
 }
+
+export interface AceptacionContratoRequest {
+  customer: {
+    account: string;
+    contract: string;
+    direction: string;
+    email: string;
+    fingerCode: string;
+    identificationNumber: string;
+    name: string;
+    phone: string;
+    surname: string;
+    transactionId: string;
+    typeContract: string;
+    typeDoc: string;
+  };
+  otraOpeData: {
+    emailRegion: string;
+    otrasOpeIntId: string;
+    otrasOpeTvId: string;
+  };
+  payment: {
+    card: string;
+    costSuscription: string;
+    descriptionSuscription: string;
+    id: string;
+    initialForm: string;
+    method: string;
+    provider: string;
+    sucursalProvider: string;
+  };
+  productInt: {
+    Aditional: string;
+    AditionalPrice: string;
+    id: string;
+    name: string;
+    plan: string;
+  };
+  productPhone: {
+    id: string;
+    name: string;
+    plan: string;
+  };
+  productStrmg: {
+    id: string;
+    name: string;
+    plan: string;
+  };
+  productTv: {
+    decosAditional: string;
+    id: string;
+    name: string;
+    packageAditional: string;
+    packageAditionalPrice: string;
+    plan: string;
+  };
+  promotionsInt: {
+    disccount: string;
+    name: string;
+  };
+  promotionsTv: {
+    disccount: string;
+    name: string;
+  };
+  vendor: {
+    city: string;
+    email: string;
+    name: string;
+  };
+}

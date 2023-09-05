@@ -4,7 +4,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { SharedService } from '../../shared/shared.service';
 import { filter } from 'rxjs/operators';
 import { DatosPersonalesService } from './datos-personales.service';
-import { ConsultaDirDicTitanRequest, ConsultarBuroClienteRequest, DatosPersonalesRequest, TokenCodigoDactilarRequest } from './datos-personales';
+import { AceptacionContratoRequest, ConsultaDirDicTitanRequest, ConsultarBuroClienteRequest, DatosPersonalesRequest, TokenCodigoDactilarRequest } from './datos-personales';
 import { MessageService } from 'primeng/api';
 import { Observable } from 'rxjs';
 
@@ -22,6 +22,9 @@ export class DatosPersonalesComponent implements OnInit {
   direccionTmp: string = localStorage.getItem('direccion') || '';
   listaCallePrincipal: any[] = [];
   listaCalleSecundaria: any[] = [];
+
+  customerName!: string | '';
+  fingerCode!: string | '';
 
   constructor(private formBuilder: FormBuilder,
     private sharedService: SharedService,
@@ -42,6 +45,15 @@ export class DatosPersonalesComponent implements OnInit {
     //   this.subSectorId = state['subSectorId'];
     //   this.direccionTmp = state['direccion'];
     // }
+
+    const formularioString = localStorage.getItem('formulario');
+    
+    if (formularioString) {
+      const formularioData = JSON.parse(formularioString);
+      delete formularioData.callePrincipal;
+      delete formularioData.calleSecundaria;
+      this.form.patchValue(formularioData);
+    }
   }
 
   @HostListener('document:click', ['$event'])
@@ -62,6 +74,10 @@ export class DatosPersonalesComponent implements OnInit {
     if (this.subSectorId != 0) {
       this.consultarCallePrincipal();
     }
+  }
+
+  ngOnDestroy() {
+    localStorage.setItem('formulario', JSON.stringify(this.form.value));
   }
 
   initializeForm() {
@@ -91,6 +107,8 @@ export class DatosPersonalesComponent implements OnInit {
               this.consultarTokenCodigoDactilar(dataBuro).subscribe({
                 next: (dataToken) => {
                   console.log('dataToken ', dataToken);
+                  this.fingerCode = dataToken.message;
+                  this.guardarAceptacionContrato();
                 }, 
                 error: (error) => {
                   console.error('Error en consultarTokenCodigoDactilar:', error);
@@ -260,6 +278,8 @@ export class DatosPersonalesComponent implements OnInit {
       fingerCode: this.form.get('codigoDactilar')?.value,
       identificationNumber: this.form.get('cedula')?.value,
     };
+
+    this.customerName = data.data.customerName;
   
     return new Observable((observer) => {
       this.datosPersonalesService.consultarTokenCodigoDactilar(body).subscribe({
@@ -269,11 +289,101 @@ export class DatosPersonalesComponent implements OnInit {
             observer.complete();
           } else {
             this.messageService.add({severity: 'error', detail: '¡No se pudo obtener token de código dactilar. Intente nuevamente!'});
+            observer.next(data);
             observer.complete();
           }
         },
         error: (error) => observer.error(error)
       });
     });
+  }
+
+  guardarAceptacionContrato() {
+    let body: AceptacionContratoRequest = {
+      customer: {
+        account: "",
+        contract: "",
+        direction: this.form.get('direccion')?.value,
+        email: this.form.get('email')?.value,
+        fingerCode: "74b0f248-7ea2-44c1-bd6c-53a0b72ea37f", //this.fingerCode
+        identificationNumber: this.form.get('cedula')?.value,
+        name: "GENESIS NARCISA", // this.separarNombre(this.customerName).nombres
+        phone: this.form.get('celular')?.value,
+        surname: "GAMBOA CEDEÑO", // this.separarNombre(this.customerName).apellidos
+        transactionId: "48841",
+        typeContract: "NUEVO",
+        typeDoc: "500022"
+      },
+      otraOpeData: {
+        emailRegion: "1",
+        otrasOpeIntId: "",
+        otrasOpeTvId: ""
+      },
+      payment: {
+        card: "",
+        costSuscription: "",
+        descriptionSuscription: "",
+        id: "500076",
+        initialForm: "",
+        method: "EF",
+        provider: "",
+        sucursalProvider: ""
+      },
+      productInt: {
+        Aditional: "",
+        AditionalPrice: "",
+        id: "926",
+        name: "Internet INT Premium 2:1",
+        plan: "$5.27/mes"
+      },
+      productPhone: {
+        id: "",
+        name: "",
+        plan: ""
+      },
+      productStrmg: {
+        id: "",
+        name: "",
+        plan: ""
+      },
+      productTv: {
+        decosAditional: "",
+        id: "",
+        name: "",
+        packageAditional: "",
+        packageAditionalPrice: "",
+        plan: ""
+      },
+      promotionsInt: {
+        disccount: "SIN PROMOCION",
+        name: "PROMOCION RESIDENCIAL"
+      },
+      promotionsTv: {
+        disccount: "",
+        name: ""
+      },
+      vendor: {
+        city: "Guayaquil",
+        email: "dvillamar@tvcable.com.ec",
+        name: "David Villamar"
+      }
+    };
+
+    this.datosPersonalesService.guardarAceptacionContrato(body).subscribe({
+      next: (data) => {
+        console.log(data);
+      },
+      error: (error) => {
+        console.log(error);
+      }
+    });
+  }
+
+  separarNombre(data: string) {
+    const palabras = data.split(" ");
+    const apellidos = palabras.slice(-2).join(" ");
+    const nombres = palabras.slice(0, -2).join(" ");
+
+    return {apellidos, nombres};
   }
 }

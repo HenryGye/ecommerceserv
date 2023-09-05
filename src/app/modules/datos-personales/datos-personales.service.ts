@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment.development';
-import { ConsultarBuroClienteRequest, DatosPersonalesRequest, DatosPersonalesResponse, TokenCodigoDactilarRequest } from './datos-personales';
+import { AceptacionContratoRequest, ConsultarBuroClienteRequest, DatosPersonalesRequest, DatosPersonalesResponse, TokenCodigoDactilarRequest } from './datos-personales';
 import { Result } from 'src/app/interfaces/result';
 
 const API_KEY = environment.API_KEY; 
@@ -10,6 +10,7 @@ const API_CONSULTAR_DATOS_CLIENTE = environment.API_CONSULTAR_DATOS_CLIENTE;
 const API_CONSULTAR_CALLE_PRINCIPAL_SECUNDARIA = environment.API_CONSULTAR_CALLE_PRINCIPAL_SECUNDARIA;
 const API_CONSULTAR_TOKEN_CODIGO_DACTILAR = environment.API_CONSULTAR_TOKEN_CODIGO_DACTILAR;
 const API_CONSULTAR_BURO_CLIENTE = environment.API_CONSULTAR_BURO_CLIENTE;
+const API_ACEPTACION_CONTRATO = environment.API_ACEPTACION_CONTRATO;
 
 @Injectable({
   providedIn: 'root'
@@ -46,5 +47,10 @@ export class DatosPersonalesService {
   consultarBuroCliente(body: ConsultarBuroClienteRequest){
     const headers = this.createHeader();
     return this.http.post<Result<any>>(`${API_MAIN + API_CONSULTAR_BURO_CLIENTE}`, body, { headers });
+  }
+
+  guardarAceptacionContrato(body: AceptacionContratoRequest){
+    const headers = this.createHeader();
+    return this.http.post<any>(`${API_MAIN + API_ACEPTACION_CONTRATO}`, body, { headers });
   }
 }
