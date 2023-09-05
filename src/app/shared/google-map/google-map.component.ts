@@ -9,7 +9,7 @@ declare const google: any;
   styleUrls: ['./google-map.component.css']
 })
 export class GoogleMapComponent implements OnInit {
-  zoom = 12;
+  zoom = 16;
 
   center: google.maps.LatLngLiteral = {
     lat: -2.1480791,
