@@ -4,9 +4,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { PrimengModule } from './primeng.module';
 import { ConfirmationService, MessageService } from 'primeng/api';
+import { RequestLimitInterceptor } from './interceptors/request-limit.interceptor';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -42,7 +43,12 @@ import { InstalacionComponent } from './modules/instalacion/instalacion.componen
     SharedModule
   ],
   providers: [
-    MessageService
+    MessageService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: RequestLimitInterceptor,
+      multi: true,
+    },
   ],
   bootstrap: [AppComponent]
 })
