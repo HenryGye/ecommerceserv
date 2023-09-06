@@ -100,13 +100,25 @@ export class DatosPersonalesComponent implements OnInit {
             next: (dataBuro) => {
               this.consultarTokenCodigoDactilar(dataBuro).subscribe({
                 next: () => this.guardarAceptacionContrato(), 
-                error: (error) => console.error('Error en consultarTokenCodigoDactilar:', error)
+                error: (error) => {
+                  console.error('Error en consultarTokenCodigoDactilar:', error);
+                  this.messageService.add({
+                    severity: 'error',
+                    detail: (error === null) ? '¡Error en obtener token. Se ha alcanzado el límite de solicitudes!' : '¡Ha ocurrido un error. Por favor intente nuevamente!'
+                  });
+                }
               });
             }, 
-            error: (error) => console.error('Error en consultarBuroCliente:', error)
+            error: (error) => {
+              console.error('Error en consultarBuroCliente:', error);
+              this.messageService.add({severity: 'error', detail: '¡Ha ocurrido un error. Por favor intente nuevamente!'});
+            }
           });
         }, 
-        error: (error) => console.error('Error en consultarDatosCliente:', error)
+        error: (error) => {
+          console.log('Error en consultarDatosCliente:', error);
+          this.messageService.add({severity: 'error', detail: '¡Ha ocurrido un error. Por favor intente nuevamente!'});
+        }
       });
     }
   }
@@ -146,14 +158,17 @@ export class DatosPersonalesComponent implements OnInit {
           console.log('dataCliente ', data);
           if (data.success) {
             this.messageService.add({severity: 'info', detail: '¡Cliente ya existe. No puede continuar!'});
+            this.spinner = false;
             observer.complete();
           } else {
             // this.messageService.add({severity: 'error', detail: data.data.message});
             observer.next(data);
           }
         },
-        error: (error) => observer.error(error),
-        complete: () => this.spinner = false
+        error: (error) => {
+          this.spinner = false;
+          observer.error(error);
+        }
       });
     });
   }
@@ -170,15 +185,19 @@ export class DatosPersonalesComponent implements OnInit {
               observer.next(data);
             } else {
               this.messageService.add({severity: 'error', detail: '¡Cliente no tiene historial crediticio. No puede continuar!'});
+              this.spinner = false;
               observer.complete();
             }
           } else {
             this.messageService.add({severity: 'error', detail: data.data});
+            this.spinner = false;
             observer.complete();
           }
         },
-        error: (error) => observer.error(error),
-        complete: () => this.spinner = false
+        error: (error) => {
+          this.spinner = false;
+          observer.error(error);
+        }
       });
     });
   }
@@ -200,14 +219,16 @@ export class DatosPersonalesComponent implements OnInit {
           if (data.success) {
             this.fingerCode = data.message;
             observer.next(data);
-            observer.complete();
           } else {
             this.messageService.add({severity: 'error', detail: '¡No se pudo obtener token de código dactilar. Intente nuevamente!'});
+            this.spinner = false;
             observer.complete();
           }
         },
-        error: (error) => observer.error(error),
-        complete: () => this.spinner = false
+        error: (error) => {
+          this.spinner = false;
+          observer.error(error);
+        }
       });
     });
   }
@@ -287,15 +308,17 @@ export class DatosPersonalesComponent implements OnInit {
       next: (data) => {
         console.log(data);
         if (data.success) {
+          this.spinner = false
           localStorage.setItem('finger_code_uuid', data.finger_code_uuid);
           localStorage.setItem('url_biometria', data.url_biometria);
           localStorage.setItem('url_redirect', data.url_redirect);
 
-          this.routerparams.navigate(['compra-en-linea/biometria-facial']);
+          // this.routerparams.navigate(['compra-en-linea/biometria-facial']);
         }
       },
       error: (error) => {
         this.messageService.add({severity: 'error', detail: '¡Ha ocurrido un error. Por favor intente nuevamente!'});
+        this.spinner = false
         console.log(error);
       }
     });
