@@ -89,6 +89,7 @@ input:focus-visible, select:focus-visible {
   padding: 1rem;
   border-width: 0 !important;
   background-color: #F9F9F9 !important;
+  align-items: center !important;
 }
 
 .p-toast .p-toast-message .p-toast-message-content .p-toast-detail {
@@ -105,6 +106,16 @@ input:focus-visible, select:focus-visible {
 .p-toast .p-toast-message.p-toast-message-info .p-toast-message-icon,
 .p-toast .p-toast-message.p-toast-message-info .p-toast-icon-close {
   color: #3F1B6A !important;
+}
+
+.p-toast .p-toast-icon-close {
+  display: none !important;
+}
+
+.p-toast-message-icon {
+  display: flex;
+  align-items: center;
+  padding: 0.5rem 0 0.5rem 0;
 }
 
 @media screen and (max-width: 768px) {
