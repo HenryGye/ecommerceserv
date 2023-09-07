@@ -313,7 +313,7 @@ export class DatosPersonalesComponent implements OnInit {
           localStorage.setItem('url_biometria', data.url_biometria);
           localStorage.setItem('url_redirect', data.url_redirect);
 
-          // this.routerparams.navigate(['compra-en-linea/biometria-facial']);
+          this.routerparams.navigate(['compra-en-linea/biometria-facial']);
         }
       },
       error: (error) => {
