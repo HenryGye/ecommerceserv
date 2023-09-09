@@ -5,8 +5,8 @@ import { BehaviorSubject, Observable, Subject } from 'rxjs';
   providedIn: 'root'
 })
 export class SharedService {
-  private direccionSubject = new BehaviorSubject<string>('');
-  private resultadoDireccionSubject = new BehaviorSubject<string>('');
+  private direccionSubject = new Subject<string>();
+  private resultadoDireccionSubject = new Subject<any>();
   private stepStatusChangedSource = new Subject<void>();
   stepStatusChanged = this.stepStatusChangedSource.asObservable();
   private timeLineDatosPersonales: boolean = false;

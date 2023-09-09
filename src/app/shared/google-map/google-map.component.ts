@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { SharedService } from '../shared.service';
+import { Subscription } from 'rxjs';
 
 declare const google: any;
 
@@ -8,19 +9,11 @@ declare const google: any;
   templateUrl: './google-map.component.html',
   styleUrls: ['./google-map.component.css']
 })
-export class GoogleMapComponent implements OnInit {
+export class GoogleMapComponent implements OnInit, OnDestroy {
+  private direccionSubscription = new Subscription;
   zoom = 16;
-
-  center: google.maps.LatLngLiteral = {
-    lat: -2.1480791,
-    lng: -79.9080458
-  };
-  
-  marker: any = new google.maps.Marker({
-    position: this.center,
-    map: null,
-  });
-
+  center: google.maps.LatLngLiteral = { lat: -2.1480791, lng: -79.9080458 };
+  marker: any = new google.maps.Marker({ position: this.center, map: null });
   options: google.maps.MapOptions = {
     mapTypeId: google.maps.MapTypeId.ROADMAP,
     zoomControl: true,
@@ -30,13 +23,7 @@ export class GoogleMapComponent implements OnInit {
     minZoom: 8,
   };
 
-  constructor(private sharedService: SharedService) {
-    this.sharedService.getDireccion().subscribe((direccion) => {
-      if (direccion) {
-        this.searchAddress(direccion);
-      }
-    });
-  }
+  constructor(private sharedService: SharedService) {}
 
   ngOnInit(): void {
     navigator.geolocation.getCurrentPosition((position) => {
@@ -45,6 +32,14 @@ export class GoogleMapComponent implements OnInit {
         lng: position.coords.longitude,
       };
     });
+
+    this.direccionSubscription = this.sharedService.getDireccion().subscribe((direccion) => {
+      if (direccion) this.searchAddress(direccion);
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.direccionSubscription.unsubscribe();
   }
 
   searchAddress(direccion: string) {
@@ -59,9 +54,6 @@ export class GoogleMapComponent implements OnInit {
         this.marker.setPosition(this.center);
         this.marker.map = this.options;
         this.sharedService.setResultadoDireccion(this.center);
-
-        console.log('result map ', results);
-        console.log(this.center);
       } else {
         this.sharedService.setResultadoDireccion(-1);
         console.error('No se pudo encontrar la dirección.');

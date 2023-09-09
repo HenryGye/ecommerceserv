@@ -1,10 +1,10 @@
-import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, OnInit, OnDestroy, Output, ViewChild } from '@angular/core';
 import { NavigationExtras, Router } from '@angular/router';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { SharedService } from '../../shared/shared.service';
 import { CoberturaService } from './cobertura.service';
 import { CoberturaRequest } from './cobertura';
-import { filter, of, switchMap } from 'rxjs';
+import { Subscription, filter, of, switchMap } from 'rxjs';
 import { MessageService } from 'primeng/api';
 import { GoogleMapComponent } from 'src/app/shared/google-map/google-map.component';
 
@@ -13,10 +13,11 @@ import { GoogleMapComponent } from 'src/app/shared/google-map/google-map.compone
   templateUrl: './cobertura.component.html',
   styleUrls: ['./cobertura.component.css']
 })
-export class CoberturaComponent implements OnInit {
+export class CoberturaComponent implements OnInit, OnDestroy {
   form!: FormGroup;
   cobertura: boolean  = true;
   subSectorId!: number;
+  private coberturaSubscription = new Subscription;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -36,6 +37,49 @@ export class CoberturaComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.coberturaSubscription = this.sharedService.getResultadoDireccion().pipe(
+      filter((direccion) => !!direccion),
+      switchMap(resultado => {
+        console.log('coordenadas ', resultado);
+        if (resultado !== -1) {
+          let body: CoberturaRequest = { latitude: resultado.lat, longitude: resultado.lng };
+          return this.coberturaService.consultarCobertura(body);
+        }
+        return of(null);
+      })
+    ).subscribe({
+      next: (data) => {
+        console.log('data ', data);
+        if (data === null) {
+          this.form.setErrors({'valid': false});
+          this.messageService.add({severity:'error', detail: '¡No se pudo encontrar la dirección!'});
+          return;
+        }
+
+        if (!data.success) {
+          this.form.setErrors({'valid': false});
+          this.cobertura = false;
+          return;
+        }
+
+        console.log('success ', data);
+        this.cobertura = true;
+        this.form.setErrors(null);
+        this.subSectorId = data.data?.subSectorId || 0;
+        localStorage.setItem('subSectorId', this.subSectorId.toString());
+        localStorage.setItem('direccion', this.form.get('direccion')?.value);
+      },
+      error: (error) => {
+        console.log('error aqui', error);
+        this.form.setErrors({'valid': false});
+        this.messageService.add({severity:'error', detail: '¡Ha ocurrido un error. Por favor intente nuevamente!'});
+        localStorage.clear();
+      }
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.coberturaSubscription.unsubscribe();
   }
 
   initializeForm() {
@@ -53,38 +97,5 @@ export class CoberturaComponent implements OnInit {
 
   buscarDireccion() {
     this.sharedService.setDireccion(this.form.get('direccion')?.value);
-
-    this.sharedService.getResultadoDireccion().pipe(
-      filter((direccion) => !!direccion),
-      switchMap(resultado => {
-        console.log('resultado ', resultado);
-        if (resultado !== -1) {
-          let body: CoberturaRequest = { latitude: resultado.lat, longitude: resultado.lng };
-          return this.coberturaService.consultarCobertura(body);
-        }
-        return of(null);
-      })
-    ).subscribe({
-      next: (data) => {
-        console.log('data ', data);
-        if (data === null || !data.success) {
-          this.cobertura = false;
-          return;
-        }
-
-        if (data.success) {
-          console.log('success ', data);
-          this.cobertura = true;
-          this.subSectorId = data.data?.subSectorId || 0;
-          localStorage.setItem('subSectorId', this.subSectorId.toString());
-          localStorage.setItem('direccion', this.form.get('direccion')?.value);
-        }
-      },
-      error: (error) => {
-        console.log('error aqui', error);
-        this.messageService.add({severity:'error', detail: '¡Ha ocurrido un error. Por favor intente nuevamente!'});
-        localStorage.clear();
-      }
-    });
   }
 }

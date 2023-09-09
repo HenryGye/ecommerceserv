@@ -10,10 +10,10 @@
           </div>
           <div class="w-full">
             <label for="inputUbicacion" class="text-[14px] font-bold text-[#6A7180]">{{ cobertura ? 'Sit&uacute;a el pin en tu ubicaci&oacute;n exacta' : 'Descubre alternativas de conexión a Internet que se adaptan a tu ubicación.' }}</label>
-            <div class="py-2" *ngIf="cobertura">
+            <div class="py-2" [ngClass]="cobertura ? '' : 'hidden'">
               <app-google-map></app-google-map>
             </div>
-            <div class="py-2" *ngIf="!cobertura">
+            <div class="py-2" [ngClass]="!cobertura ? '' : 'hidden'">
               <app-plan-hfc></app-plan-hfc>
             </div>
           </div>
