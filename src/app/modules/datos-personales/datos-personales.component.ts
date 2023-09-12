@@ -314,6 +314,9 @@ export class DatosPersonalesComponent implements OnInit {
           localStorage.setItem('url_redirect', data.url_redirect);
 
           this.routerparams.navigate(['compra-en-linea/biometria-facial']);
+        } else {
+          this.spinner = false
+          this.messageService.add({severity: 'error', detail: '¡Ha ocurrido un error. Por favor intente nuevamente!'});
         }
       },
       error: (error) => {
