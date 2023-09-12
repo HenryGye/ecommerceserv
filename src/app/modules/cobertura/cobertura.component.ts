@@ -15,8 +15,10 @@ import { GoogleMapComponent } from 'src/app/shared/google-map/google-map.compone
 })
 export class CoberturaComponent implements OnInit, OnDestroy {
   form!: FormGroup;
+  formNoCobertura!: FormGroup;
   cobertura: boolean  = true;
   subSectorId!: number;
+  panelCobertura: boolean = false;
   private coberturaSubscription = new Subscription;
 
   constructor(
@@ -31,6 +33,7 @@ export class CoberturaComponent implements OnInit, OnDestroy {
     this.sharedService.setTimeLineActivo3(false);
     this.sharedService.setTimeLineActivo4(false);
     this.initializeForm();
+    this.initializeFormNoCobertura();
 
     const direccionString = localStorage.getItem('direccion');
     this.form.get('direccion')?.patchValue(direccionString !== null ? direccionString : null);
@@ -88,10 +91,27 @@ export class CoberturaComponent implements OnInit, OnDestroy {
     });
   }
 
+  initializeFormNoCobertura() {
+    this.formNoCobertura = this.formBuilder.group({
+      nombres: new FormControl('', [Validators.required]),
+      email: new FormControl('', [Validators.required]),
+      celular: new FormControl('', [Validators.required]),
+      acepto: new FormControl(false, [Validators.requiredTrue]),
+    });
+  }
+
   continuar() {
     if (this.form != undefined && this.form.valid) {
       console.log('click');
       this.routerparams.navigate(['compra-en-linea/datos-personales']);
+    }
+  }
+
+  continuarFormNoCobertura() {
+    if (this.formNoCobertura != undefined && this.formNoCobertura.valid) {
+      console.log('click no cobertura');
+      // this.routerparams.navigate(['compra-en-linea/datos-personales']);
+      this.panelCobertura = true;
     }
   }
 

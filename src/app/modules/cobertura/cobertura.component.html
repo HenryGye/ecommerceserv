@@ -1,6 +1,6 @@
 <div class="bg-[#EBEBEB]">
   <div class="mx-auto p-4 w-full md:w-[75%]">
-    <div class="flex flex-col md:flex-row justify-center items-start gap-3">
+    <div class="flex flex-col md:flex-row justify-center items-start gap-3" *ngIf="!panelCobertura">
       <div class="bg-[#F9F9F9] w-full rounded-2xl" [ngClass]="!cobertura ? '' : 'md:w-[75%]'">
         <form class="space-y-4 p-9" [formGroup]="form">
           <span class="text-xl font-bold text-[#3F1B6A]">{{ cobertura ? 'Verifiquemos la cobertura de tu zona' : 'UPS! Tu dirección no tiene cobertura para el plan seleccionado' }}</span>
@@ -9,12 +9,40 @@
             <input type="text" class="w-full px-3 py-2 border rounded-md" id="inputDireccion" formControlName="direccion" (keyup.enter)="buscarDireccion()">
           </div>
           <div class="w-full">
-            <label for="inputUbicacion" class="text-[14px] font-bold text-[#6A7180]">{{ cobertura ? 'Sit&uacute;a el pin en tu ubicaci&oacute;n exacta' : 'Descubre alternativas de conexión a Internet que se adaptan a tu ubicación.' }}</label>
+            <!--<label for="inputUbicacion" class="text-[14px] font-bold text-[#6A7180]">{{ cobertura ? 'Sit&uacute;a el pin en tu ubicaci&oacute;n exacta' : 'Descubre alternativas de conexión a Internet que se adaptan a tu ubicación.' }}</label>-->
+            <label for="inputUbicacion" class="text-[14px] font-bold text-[#6A7180]">{{ cobertura ? 'Sit&uacute;a el pin en tu ubicaci&oacute;n exacta' : 'Ingresa los siguientes datos para poder ofrecerte alternativas al servicio:' }}</label>
             <div class="py-2" [ngClass]="cobertura ? '' : 'hidden'">
               <app-google-map></app-google-map>
             </div>
             <div class="py-2" [ngClass]="!cobertura ? '' : 'hidden'">
-              <app-plan-hfc></app-plan-hfc>
+              <!--<app-plan-hfc></app-plan-hfc>-->
+              <form class="space-y-4" [formGroup]="formNoCobertura">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div class="col-span-2">
+                    <label for="inputNombres" class="text-[14px] font-bold text-[#6A7180]">Nombres</label>
+                    <input type="text" class="w-full px-3 py-2 border rounded-md" id="inputNombres" placeholder="" formControlName="nombres">
+                  </div>
+                  <div class="col-span-2 md:col-span-1">
+                    <label for="inputEmail" class="text-[14px] font-bold text-[#6A7180]">Email</label>
+                    <input type="text" class="w-full px-3 py-2 border rounded-md" id="inputEmail" placeholder="" formControlName="email">
+                  </div>
+                  <div class="col-span-2 md:col-span-1">
+                    <label for="inputCelular" class="text-[14px] font-bold text-[#6A7180]">Celular</label>
+                    <input type="text" class="w-full px-3 py-2 border rounded-md" id="inputCelular" placeholder="" formControlName="celular">
+                  </div>
+                  <div class="col-span-2">
+                    <div class="flex gap-2">
+                      <input class="w-[18px] h-[18px] text-[#562577]" type="checkbox" id="gridCheck" formControlName="acepto">
+                      <label class="text-[14px] font-normal text-[#6A7180]" for="gridCheck">
+                        Al aceptar, estás de acuerdo con nuestra <a href="https://www.xtrim.com.ec/politica-de-privacidad-datos/" target="_blank"><span style="color: #6c2e83;">Política de protección de datos personales</span></a>
+                      </label>
+                    </div>
+                  </div>
+                  <div class="col-span-2">
+                    <button type="button" class="rounded-md px-4 py-2 btn-continuar" [disabled]="!formNoCobertura.valid" (click)="continuarFormNoCobertura()">Continuar</button>
+                  </div>
+                </div>
+              </form>
             </div>
           </div>
           <div class="w-full" *ngIf="cobertura">
@@ -24,6 +52,22 @@
       </div>
       <div class="bg-[#F9F9F9] w-[75%] md:w-[25%] rounded-2xl" *ngIf="cobertura">
         <app-resumen-pedido></app-resumen-pedido>
+      </div>
+    </div>
+    <!--se muestra en caso de no haber cobertura y finaliza flujo-->
+    <div class="flex flex-col md:flex-row justify-center items-start gap-3" *ngIf="panelCobertura">
+      <div class="w-full bg-[#FFFFFF] rounded-2xl">
+        <div class="w-full flex justify-center">
+          <div class="flex flex-col items-center gap-4 py-20 md:p-20 w-[70%] text-center">
+            <img src="assets/img/icon-check.png">
+            <span class="text-[25px] font-bold text-[#562577]">¡Gracias por contactarnos!</span>
+            <span class="text-base font-normal text-[#525A6C] font-montserrat">
+              Apreciamos tu interés en Xtrim. Pronto recibirás una respuesta de nuestro equipo. Estamos aquí para ayudarte.
+              <span class="block font-bold">¡Gracias por confiar en Xtrim!</span>
+            </span>
+            <button type="submit" class="rounded-md border-2 border-[#EBECF0] px-4 py-2 mt-8 bg-[#FFFFFF] text-base font-medium text-[#83378F]">Regresar al inico</button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
