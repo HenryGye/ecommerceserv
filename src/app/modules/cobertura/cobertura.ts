@@ -18,6 +18,8 @@ export interface CoberturaResponse {
 }
 
 export interface NodeInfo {
+  isOverlay: string;
+  nodeID: number;
   nodeName: string;
   technology: string;
 }
