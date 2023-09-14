@@ -21,6 +21,9 @@ export class CoberturaComponent implements OnInit, OnDestroy {
   panelCobertura: boolean = false;
   gpon: boolean = false;
   hfc: boolean = false;
+  showCaptcha: boolean = false;
+  spinner: boolean = false;
+  captchaValidado: boolean = false;
   subSectorId!: number;
   private coberturaSubscription = new Subscription;
 
@@ -135,5 +138,17 @@ export class CoberturaComponent implements OnInit, OnDestroy {
 
   buscarDireccion() {
     this.sharedService.setDireccion(this.form.get('direccion')?.value);
+  }
+
+  resolved(captchaResponse: string) {
+    console.log(`Resolved captcha with response: ${captchaResponse}`);
+  }
+
+  validarCaptcha() {
+    this.spinner = true;
+    setTimeout(() => {
+      this.captchaValidado = true;
+      this.spinner = false;
+    }, 2000);
   }
 }

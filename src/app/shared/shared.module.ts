@@ -9,11 +9,13 @@ import { GoogleMapsModule } from '@angular/google-maps';
 import { GoogleMapComponent } from './google-map/google-map.component';
 import { PlanHfcComponent } from './plan-hfc/plan-hfc.component';
 import { LoadingSpinnerComponent } from './loading-spinner/loading-spinner.component';
+import { RecaptchaModule } from "ng-recaptcha";
 
 @NgModule({
   imports: [
     CommonModule,
-    GoogleMapsModule
+    GoogleMapsModule,
+    RecaptchaModule
   ],
   declarations: [
     TimelineComponent,
@@ -32,7 +34,8 @@ import { LoadingSpinnerComponent } from './loading-spinner/loading-spinner.compo
     CalendarioHorarioComponent,
     GoogleMapComponent,
     PlanHfcComponent,
-    LoadingSpinnerComponent
+    LoadingSpinnerComponent,
+    RecaptchaModule
   ],
   providers: [
     SharedService
