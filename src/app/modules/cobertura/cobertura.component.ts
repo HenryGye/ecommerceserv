@@ -17,8 +17,11 @@ export class CoberturaComponent implements OnInit, OnDestroy {
   form!: FormGroup;
   formNoCobertura!: FormGroup;
   cobertura: boolean  = true;
-  subSectorId!: number;
+  sinCobertura: boolean = false;
   panelCobertura: boolean = false;
+  gpon: boolean = false;
+  hfc: boolean = false;
+  subSectorId!: number;
   private coberturaSubscription = new Subscription;
 
   constructor(
@@ -62,18 +65,33 @@ export class CoberturaComponent implements OnInit, OnDestroy {
         if (!data.success) {
           this.form.setErrors({'valid': false});
           this.cobertura = false;
+          this.sinCobertura = true;
           return;
         }
 
-        console.log('success ', data);
-        this.cobertura = true;
-        this.form.setErrors(null);
-        this.subSectorId = data.data?.subSectorId || 0;
-        localStorage.setItem('subSectorId', this.subSectorId.toString());
-        localStorage.setItem('direccion', this.form.get('direccion')?.value);
+        this.gpon = false;
+        this.hfc = false;
+
+        data.data?.nodes.forEach(element => {
+          if (element.technology === 'GPON') this.gpon = true;
+          if (element.technology === 'HFC') this.hfc = true;
+        });
+
+        if (this.gpon || (this.gpon && this.hfc)) {
+          this.cobertura = true;
+          this.sinCobertura = false;
+          this.form.setErrors(null);
+          this.subSectorId = data.data?.subSectorId || 0;
+          localStorage.setItem('subSectorId', this.subSectorId.toString());
+          localStorage.setItem('direccion', this.form.get('direccion')?.value);
+        } else {
+          this.form.setErrors({'valid': false});
+          this.cobertura = false;
+          this.sinCobertura = false;
+        }
       },
       error: (error) => {
-        console.log('error aqui', error);
+        console.log('error ', error);
         this.form.setErrors({'valid': false});
         this.messageService.add({severity:'error', detail: '¡Ha ocurrido un error. Por favor intente nuevamente!'});
         localStorage.clear();

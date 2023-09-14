@@ -9,13 +9,18 @@
             <input type="text" class="w-full px-3 py-2 border rounded-md" id="inputDireccion" formControlName="direccion" (keyup.enter)="buscarDireccion()">
           </div>
           <div class="w-full">
-            <!--<label for="inputUbicacion" class="text-[14px] font-bold text-[#6A7180]">{{ cobertura ? 'Sit&uacute;a el pin en tu ubicaci&oacute;n exacta' : 'Descubre alternativas de conexión a Internet que se adaptan a tu ubicación.' }}</label>-->
-            <label for="inputUbicacion" class="text-[14px] font-bold text-[#6A7180]">{{ cobertura ? 'Sit&uacute;a el pin en tu ubicaci&oacute;n exacta' : 'Ingresa los siguientes datos para poder ofrecerte alternativas al servicio:' }}</label>
-            <div class="py-2" [ngClass]="cobertura ? '' : 'hidden'">
-              <app-google-map></app-google-map>
+            <div class="space-y-4" [ngClass]="cobertura && !sinCobertura ? '' : 'hidden'">
+              <label for="inputUbicacion" class="text-[14px] font-bold text-[#6A7180]">Sit&uacute;a el pin en tu ubicaci&oacute;n exacta</label>
+              <div>
+                <app-google-map></app-google-map>
+              </div>
             </div>
-            <div class="py-2" [ngClass]="!cobertura ? '' : 'hidden'">
-              <!--<app-plan-hfc></app-plan-hfc>-->
+            <div class="" [ngClass]="!cobertura && !sinCobertura ? '' : 'hidden'">
+              <label for="inputUbicacion" class="text-[14px] font-bold text-[#6A7180]">Descubre alternativas de conexión a Internet que se adaptan a tu ubicación.</label>
+              <app-plan-hfc></app-plan-hfc>
+            </div>
+            <div class="" [ngClass]="sinCobertura ? '' : 'hidden'">
+              <label for="inputUbicacion" class="text-[14px] font-bold text-[#6A7180]">Ingresa los siguientes datos para poder ofrecerte alternativas al servicio:</label>
               <form class="space-y-4" [formGroup]="formNoCobertura">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div class="col-span-2">
@@ -45,16 +50,16 @@
               </form>
             </div>
           </div>
-          <div class="w-full" *ngIf="cobertura">
+          <div class="w-full" *ngIf="cobertura && !sinCobertura">
             <button type="button" class="rounded-md px-4 py-2 btn-continuar" [disabled]="!form.valid" (click)="continuar()">Continuar</button>
           </div>
         </form>
       </div>
-      <div class="bg-[#F9F9F9] w-[75%] md:w-[25%] rounded-2xl" *ngIf="cobertura">
+      <div class="bg-[#F9F9F9] w-[75%] md:w-[25%] rounded-2xl" *ngIf="cobertura && !sinCobertura">
         <app-resumen-pedido></app-resumen-pedido>
       </div>
     </div>
-    <!--se muestra en caso de no haber cobertura y finaliza flujo-->
+    <!--se muestra en caso de no haber cobertura ni gpon ni hfc y finaliza flujo-->
     <div class="flex flex-col md:flex-row justify-center items-start gap-3" *ngIf="panelCobertura">
       <div class="w-full bg-[#FFFFFF] rounded-2xl">
         <div class="w-full flex justify-center">
