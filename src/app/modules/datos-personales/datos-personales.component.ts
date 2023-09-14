@@ -7,6 +7,7 @@ import { DatosPersonalesService } from './datos-personales.service';
 import { AceptacionContratoRequest, ConsultaDirDicTitanRequest, ConsultarBuroClienteRequest, DatosPersonalesRequest, TokenCodigoDactilarRequest } from './datos-personales';
 import { MessageService } from 'primeng/api';
 import { Observable } from 'rxjs';
+import { DatosPersonalesValidator } from './datos-personales.validator';
 
 @Component({
   selector: 'app-datos-personales',
@@ -32,6 +33,7 @@ export class DatosPersonalesComponent implements OnInit {
     private sharedService: SharedService,
     private messageService: MessageService,
     private datosPersonalesService: DatosPersonalesService,
+    private datosPersonalesValidator: DatosPersonalesValidator,
     private routerparams: Router) {
     this.sharedService.setTimeLineCobertura(true);
     this.sharedService.setTimeLineDatosPersonales(true);
@@ -77,10 +79,10 @@ export class DatosPersonalesComponent implements OnInit {
 
   initializeForm() {
     this.form = this.formBuilder.group({
-      cedula: new FormControl('', [Validators.required]),
+      cedula: new FormControl('', [Validators.required, this.datosPersonalesValidator.tipoDocumentoValidator]),
       codigoDactilar:new FormControl('', [Validators.required]),
-      email: new FormControl('', [Validators.required]),
-      celular: new FormControl('', [Validators.required]),
+      email: new FormControl('', [Validators.required, Validators.email]),
+      celular: new FormControl('', [Validators.required, Validators.pattern(/^[0-9]{10}$/)]),
       direccion: new FormControl('', [Validators.required]),
       callePrincipal: new FormControl('', [Validators.required]),
       calleSecundaria: new FormControl('', [Validators.required]),
@@ -157,7 +159,7 @@ export class DatosPersonalesComponent implements OnInit {
         next: (data) => {
           console.log('dataCliente ', data);
           if (data.success) {
-            this.messageService.add({severity: 'info', detail: '¡Cliente ya existe. No puede continuar!'});
+            this.messageService.add({severity: 'info', detail: 'Ups, este plan aplica para nuevos clientes.'});
             this.spinner = false;
             observer.complete();
           } else {
