@@ -18,10 +18,10 @@ export class GoogleMapComponent implements OnInit, OnDestroy {
     zoomControl: true,
     scrollwheel: true,
     disableDoubleClickZoom: true,
-    maxZoom: 16,
+    maxZoom: 18,
     minZoom: 8,
   };
-  markerOptions: google.maps.MarkerOptions = {draggable: false};
+  markerOptions: google.maps.MarkerOptions = {draggable: true};
   markerPosition: google.maps.LatLngLiteral = { lat: 0, lng: 0 };
 
   constructor(private sharedService: SharedService) {}
@@ -47,6 +47,13 @@ export class GoogleMapComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.direccionSubscription.unsubscribe();
+  }
+
+  onMarkerChanged(event: google.maps.MapMouseEvent) {
+    console.log('latlng ', event.latLng?.toJSON());
+    if (event.latLng) {
+      this.markerPosition = event.latLng.toJSON();
+    }
   }
 
   currentPosition() {

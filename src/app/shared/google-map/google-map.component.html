@@ -8,6 +8,7 @@
   <map-marker
     [position]="markerPosition"
     [options]="markerOptions"
+    (mapDragend)="onMarkerChanged($event)"
   >
   </map-marker>
 </google-map>
