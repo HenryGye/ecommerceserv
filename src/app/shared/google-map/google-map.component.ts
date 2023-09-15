@@ -11,10 +11,8 @@ declare const google: any;
 })
 export class GoogleMapComponent implements OnInit, OnDestroy {
   private direccionSubscription = new Subscription;
-  showMarker: boolean = false;
   zoom = 16;
   center: google.maps.LatLngLiteral = { lat: -2.1480791, lng: -79.9080458 };
-  marker: any = new google.maps.Marker({ position: this.center, map: null });
   options: google.maps.MapOptions = {
     mapTypeId: google.maps.MapTypeId.ROADMAP,
     zoomControl: true,
@@ -23,6 +21,8 @@ export class GoogleMapComponent implements OnInit, OnDestroy {
     maxZoom: 16,
     minZoom: 8,
   };
+  markerOptions: google.maps.MarkerOptions = {draggable: false};
+  markerPosition: google.maps.LatLngLiteral = { lat: 0, lng: 0 };
 
   constructor(private sharedService: SharedService) {}
 
@@ -35,9 +35,7 @@ export class GoogleMapComponent implements OnInit, OnDestroy {
         lat: +latitud,
         lng: +longitud,
       };
-      this.showMarker = true;
-      this.marker.setPosition(this.center);
-      this.marker.map = this.options;
+      this.markerPosition = this.center;
     } else {
      this.currentPosition(); 
     }
@@ -52,7 +50,6 @@ export class GoogleMapComponent implements OnInit, OnDestroy {
   }
 
   currentPosition() {
-    this.showMarker = false;
     navigator.geolocation.getCurrentPosition((position) => {
       this.center = {
         lat: position.coords.latitude,
@@ -70,14 +67,12 @@ export class GoogleMapComponent implements OnInit, OnDestroy {
           lat: results[0].geometry.location.lat(),
           lng: results[0].geometry.location.lng(),
         };
-        this.showMarker = true;
-        this.marker.setPosition(this.center);
-        this.marker.map = this.options;
+        this.markerPosition = this.center;
         this.sharedService.setResultadoDireccion(this.center);
         localStorage.setItem('latitud', this.center.lat.toString());
         localStorage.setItem('longitud', this.center.lng.toString());
       } else {
-        this.showMarker = false;
+        this.markerPosition = { lat: 0, lng: 0 };
         this.sharedService.setResultadoDireccion(-1);
         localStorage.removeItem('latitud');
         localStorage.removeItem('longitud');
