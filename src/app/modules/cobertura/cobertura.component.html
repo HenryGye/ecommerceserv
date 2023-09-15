@@ -6,7 +6,12 @@
           <span class="text-xl font-bold text-[#3F1B6A]">{{ cobertura ? 'Verifiquemos la cobertura de tu zona' : 'UPS! Tu dirección no tiene cobertura para el plan seleccionado' }}</span>
           <div class="w-full">
             <label for="inputDireccion" class="text-[14px] font-bold text-[#6A7180]">Dirección</label>
-            <input type="text" class="w-full px-3 py-2 border rounded-md" id="inputDireccion" formControlName="direccion" (keyup.enter)="buscarDireccion()">
+            <div class="relative">
+              <input type="text" class="w-full px-3 py-2 border rounded-md" id="inputDireccion" formControlName="direccion" (keyup.enter)="buscarDireccion()" (keyup)="buscarPrediccion()" (blur)="onBlur()">
+              <ul class="absolute py-2 z-10 w-full bg-[#F9F9F9] border border-[#B1B5BD] rounded-md mt-2" *ngIf="listaPrediccion.length > 0 && showListPrediccion">
+                <li class="px-3 py-2 cursor-pointer hover:bg-[#D7DAE1] text-[#6A7180] text-[13px]" *ngFor="let prediccion of listaPrediccion" (click)="seleccionarPrediccion(prediccion.description)">{{ prediccion.description }}</li>
+              </ul>
+            </div>
           </div>
           <div class="w-full">
             <div class="space-y-4" [ngClass]="cobertura && !sinCobertura ? '' : 'hidden'">

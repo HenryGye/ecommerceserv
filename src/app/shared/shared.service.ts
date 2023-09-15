@@ -6,7 +6,9 @@ import { BehaviorSubject, Observable, Subject } from 'rxjs';
 })
 export class SharedService {
   private direccionSubject = new Subject<string>();
+  private prediccionSubject = new Subject<string>();
   private resultadoDireccionSubject = new Subject<any>();
+  private resultadoPrediccionSubject = new Subject<any>();
   private stepStatusChangedSource = new Subject<void>();
   stepStatusChanged = this.stepStatusChangedSource.asObservable();
   private timeLineDatosPersonales: boolean = false;
@@ -105,5 +107,21 @@ export class SharedService {
 
   getResultadoDireccion(): Observable<any> {
     return this.resultadoDireccionSubject.asObservable();
+  }
+
+  setPrediccion(direccion: string) {
+    this.prediccionSubject.next(direccion);
+  }
+
+  getPrediccion(): Observable<string> {
+    return this.prediccionSubject.asObservable();
+  }
+
+  setResultadoPrediccion(resultado: any) {
+    this.resultadoPrediccionSubject.next(resultado);
+  }
+
+  getResultadoPrediccion(): Observable<any> {
+    return this.resultadoPrediccionSubject.asObservable();
   }
 }

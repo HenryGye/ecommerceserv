@@ -11,6 +11,7 @@ declare const google: any;
 })
 export class GoogleMapComponent implements OnInit, OnDestroy {
   private direccionSubscription = new Subscription;
+  private prediccionSubscription = new Subscription;
   zoom = 16;
   center: google.maps.LatLngLiteral = { lat: -2.1480791, lng: -79.9080458 };
   options: google.maps.MapOptions = {
@@ -43,16 +44,22 @@ export class GoogleMapComponent implements OnInit, OnDestroy {
     this.direccionSubscription = this.sharedService.getDireccion().subscribe((direccion) => {
       if (direccion) this.searchAddress(direccion);
     });
+
+    this.prediccionSubscription = this.sharedService.getPrediccion().subscribe((direccion) => {
+      if (direccion) this.searchPlaces(direccion);
+    });
   }
 
   ngOnDestroy(): void {
     this.direccionSubscription.unsubscribe();
+    this.prediccionSubscription.unsubscribe();
   }
 
   onMarkerChanged(event: google.maps.MapMouseEvent) {
-    console.log('latlng ', event.latLng?.toJSON());
+    console.log('marker changed ', event.latLng?.toJSON());
     if (event.latLng) {
       this.markerPosition = event.latLng.toJSON();
+      this.sharedService.setResultadoDireccion(this.markerPosition);
     }
   }
 
@@ -86,5 +93,20 @@ export class GoogleMapComponent implements OnInit, OnDestroy {
         console.error('No se pudo encontrar la dirección.');
       }
     });
+  }
+
+  searchPlaces(direccion: string) {
+    const autocompleteService = new google.maps.places.AutocompleteService();
+    autocompleteService.getPlacePredictions(
+      { input: direccion },
+      (predictions: google.maps.places.AutocompletePrediction[], status: google.maps.places.PlacesServiceStatus) => {
+        if (status == google.maps.places.PlacesServiceStatus.OK) {
+          this.sharedService.setResultadoPrediccion(predictions);
+        } else {
+          this.sharedService.setResultadoPrediccion(-1);
+          console.log('No hay sugerenias para mostrar.');
+        }
+      }
+    );
   }
 }

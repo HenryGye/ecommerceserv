@@ -4,7 +4,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { SharedService } from '../../shared/shared.service';
 import { CoberturaService } from './cobertura.service';
 import { CoberturaRequest } from './cobertura';
-import { Subscription, filter, of, switchMap } from 'rxjs';
+import { Subscription, filter, map, of, switchMap } from 'rxjs';
 import { MessageService } from 'primeng/api';
 import { GoogleMapComponent } from 'src/app/shared/google-map/google-map.component';
 
@@ -25,7 +25,10 @@ export class CoberturaComponent implements OnInit, OnDestroy {
   spinner: boolean = false;
   captchaValidado: boolean = false;
   subSectorId!: number;
+  listaPrediccion: any[] = [];
+  showListPrediccion: boolean = false;
   private coberturaSubscription = new Subscription;
+  private resultadoPrediccionSubscription = new Subscription;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -50,6 +53,7 @@ export class CoberturaComponent implements OnInit, OnDestroy {
       filter((direccion) => !!direccion),
       switchMap(resultado => {
         console.log('coordenadas ', resultado);
+        this.showListPrediccion = false;
         if (resultado !== -1) {
           let body: CoberturaRequest = { latitude: resultado.lat, longitude: resultado.lng };
           return this.coberturaService.consultarCobertura(body);
@@ -100,10 +104,30 @@ export class CoberturaComponent implements OnInit, OnDestroy {
         localStorage.clear();
       }
     });
+
+    this.resultadoPrediccionSubscription = this.sharedService.getResultadoPrediccion().pipe(
+      filter((direccion) => !!direccion),
+      switchMap(resultado => {
+        if (resultado !== -1) {
+          return of(resultado);
+        }
+        return of(null);
+      })
+    ).subscribe(data => {
+      console.log('listaPrediccion ', this.listaPrediccion);
+      if (data) {
+        this.listaPrediccion = data;
+        this.showListPrediccion = true;
+      } else {
+        this.listaPrediccion = [];
+        this.showListPrediccion = false;
+      }
+    });
   }
 
   ngOnDestroy(): void {
     this.coberturaSubscription.unsubscribe();
+    this.resultadoPrediccionSubscription.unsubscribe();
   }
 
   initializeForm() {
@@ -137,7 +161,29 @@ export class CoberturaComponent implements OnInit, OnDestroy {
   }
 
   buscarDireccion() {
-    this.sharedService.setDireccion(this.form.get('direccion')?.value);
+    if (this.form.get('direccion')?.value.trim()) {
+      this.sharedService.setDireccion(this.form.get('direccion')?.value);
+    }
+  }
+
+  buscarPrediccion() {
+    if (this.form.get('direccion')?.value.trim()) {
+      this.sharedService.setPrediccion(this.form.get('direccion')?.value);
+    } else {
+      this.listaPrediccion = [];
+      this.showListPrediccion = false;
+    }
+  }
+
+  seleccionarPrediccion(prediccion: string) {
+    this.form.get('direccion')?.patchValue(prediccion);
+    this.buscarDireccion();
+  }
+
+  onBlur() {
+    setTimeout(() => {
+      this.showListPrediccion = false;
+    }, 300);
   }
 
   resolved(captchaResponse: string) {
