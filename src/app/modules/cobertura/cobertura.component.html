@@ -1,3 +1,4 @@
+<app-loading-spinner [spinner]="spinner"></app-loading-spinner>
 <div class="bg-[#EBEBEB]">
   <div class="mx-auto p-4 w-full md:w-[75%]">
     <div class="flex flex-col md:flex-row justify-center items-start gap-3" *ngIf="!panelCobertura">
@@ -88,8 +89,8 @@
   <div class="w-[380px] bg-[#FFFFFF] rounded-2xl">
     <div class="w-full flex justify-center">
       <div class="flex flex-col items-center gap-4 p-6 text-center">
-        <div class="spinner" [ngClass]="{'hidden':!spinner}"></div>
-        <img [src]="!captchaValidado ? 'assets/img/icon-exclamation-2.png' : 'assets/img/icon-check.png'" [ngClass]="{'hidden':spinner}">
+        <div class="spinner" [ngClass]="{'hidden':!spinnerCatpcha}"></div>
+        <img [src]="!captchaValidado ? 'assets/img/icon-exclamation-2.png' : 'assets/img/icon-check.png'" [ngClass]="{'hidden':spinnerCatpcha}">
         <span class="text-[25px] font-bold text-[#562577]">Validaci&oacute;n</span>
         <re-captcha (resolved)="resolved($event)" siteKey="YOUR_SITE_KEY"></re-captcha>
         <button type="submit" class="w-full rounded-md border-2 border-[#EBECF0] px-4 py-2 bg-[#FFFFFF] text-base font-medium text-[#83378F]" [disabled]="!captchaValidado">Continuar</button>

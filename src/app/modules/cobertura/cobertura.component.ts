@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, OnDestroy, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, OnInit, OnDestroy, Output, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { NavigationExtras, Router } from '@angular/router';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { SharedService } from '../../shared/shared.service';
@@ -23,6 +23,7 @@ export class CoberturaComponent implements OnInit, OnDestroy {
   hfc: boolean = false;
   showCaptcha: boolean = false;
   spinner: boolean = false;
+  spinnerCatpcha: boolean = false;
   captchaValidado: boolean = false;
   subSectorId!: number;
   listaPrediccion: any[] = [];
@@ -35,6 +36,7 @@ export class CoberturaComponent implements OnInit, OnDestroy {
     private messageService: MessageService,
     private sharedService: SharedService,
     private coberturaService: CoberturaService,
+    private cdr: ChangeDetectorRef,
     private routerparams: Router) {
     this.sharedService.setTimeLineCobertura(true);
     this.sharedService.setTimeLineActivo2(true);
@@ -54,7 +56,9 @@ export class CoberturaComponent implements OnInit, OnDestroy {
       switchMap(resultado => {
         console.log('coordenadas ', resultado);
         this.showListPrediccion = false;
+        this.form.setErrors({'valid': false});
         if (resultado !== -1) {
+          this.spinner = true;
           let body: CoberturaRequest = { latitude: resultado.lat, longitude: resultado.lng };
           return this.coberturaService.consultarCobertura(body);
         }
@@ -62,10 +66,12 @@ export class CoberturaComponent implements OnInit, OnDestroy {
       })
     ).subscribe({
       next: (data) => {
+        this.spinner = false;
         console.log('data ', data);
         if (data === null) {
           this.form.setErrors({'valid': false});
           this.messageService.add({severity:'error', detail: '¡No se pudo encontrar la dirección!'});
+          this.cdr.detectChanges();
           return;
         }
 
@@ -73,6 +79,7 @@ export class CoberturaComponent implements OnInit, OnDestroy {
           this.form.setErrors({'valid': false});
           this.cobertura = false;
           this.sinCobertura = true;
+          this.cdr.detectChanges();
           return;
         }
 
@@ -96,9 +103,11 @@ export class CoberturaComponent implements OnInit, OnDestroy {
         this.subSectorId = data.data?.subSectorId || 0;
         localStorage.setItem('subSectorId', this.subSectorId.toString());
         localStorage.setItem('direccion', this.form.get('direccion')?.value);
+        this.cdr.detectChanges();
       },
       error: (error) => {
         console.log('error ', error);
+        this.spinner = false;
         this.form.setErrors({'valid': false});
         this.messageService.add({severity:'error', detail: '¡Ha ocurrido un error. Por favor intente nuevamente!'});
         localStorage.clear();
@@ -114,7 +123,6 @@ export class CoberturaComponent implements OnInit, OnDestroy {
         return of(null);
       })
     ).subscribe(data => {
-      console.log('listaPrediccion ', this.listaPrediccion);
       if (data) {
         this.listaPrediccion = data;
         this.showListPrediccion = true;
@@ -191,10 +199,10 @@ export class CoberturaComponent implements OnInit, OnDestroy {
   }
 
   validarCaptcha() {
-    this.spinner = true;
+    this.spinnerCatpcha = true;
     setTimeout(() => {
       this.captchaValidado = true;
-      this.spinner = false;
+      this.spinnerCatpcha = false;
     }, 2000);
   }
 }
