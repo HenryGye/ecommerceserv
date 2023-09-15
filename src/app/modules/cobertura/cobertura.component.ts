@@ -88,14 +88,14 @@ export class CoberturaComponent implements OnInit, OnDestroy {
           this.cobertura = true;
           this.sinCobertura = false;
           this.form.setErrors(null);
-          this.subSectorId = data.data?.subSectorId || 0;
-          localStorage.setItem('subSectorId', this.subSectorId.toString());
-          localStorage.setItem('direccion', this.form.get('direccion')?.value);
         } else {
           this.form.setErrors({'valid': false});
           this.cobertura = false;
           this.sinCobertura = false;
         }
+        this.subSectorId = data.data?.subSectorId || 0;
+        localStorage.setItem('subSectorId', this.subSectorId.toString());
+        localStorage.setItem('direccion', this.form.get('direccion')?.value);
       },
       error: (error) => {
         console.log('error ', error);

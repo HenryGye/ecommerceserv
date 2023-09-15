@@ -1,11 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-plan-hfc',
   templateUrl: './plan-hfc.component.html',
   styleUrls: ['./plan-hfc.component.css']
 })
-export class PlanHfcComponent {
+export class PlanHfcComponent implements OnInit {
   planes: any[] = [
     {
       id: 1,
@@ -26,4 +27,12 @@ export class PlanHfcComponent {
       descripcion: 'PARA LOS AMANTES DEL ENTRETENIMIENTO'
     }
   ];
+
+  constructor(private routerparams: Router) {}
+
+  ngOnInit(): void {}
+
+  continuar() {
+    this.routerparams.navigate(['compra-en-linea/datos-personales']);
+  }
 }

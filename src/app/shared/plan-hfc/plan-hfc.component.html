@@ -14,8 +14,8 @@
             </div>
             <img [src]="plan.img" alt="xtrim" class="">
             <span class="font-montserrat font-normal text-[17px] text-center">{{plan.descripcion}}</span>
-            <button type="" class="rounded-md px-4 py-2 btn-continuar">¡Lo quiero!</button>
-            <button type="" class="mt-2 text-sm font-bold text-[#83378F] flex">
+            <button type="button" class="rounded-md px-4 py-2 btn-continuar" (click)="continuar()">¡Lo quiero!</button>
+            <button type="button" class="mt-2 text-sm font-bold text-[#83378F] flex">
               <span>Ver detalles</span>
               <svg class="h-5 w-5 mt-[1px]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                 <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 0 1 1.414 0L10 10.586l3.293-3.293a1 1 0 1 1 1.414 1.414l-4 4a1 1 0 0 1-1.414 0l-4-4a1 1 0 0 1 0-1.414z"/>
