@@ -169,13 +169,13 @@ export class CoberturaComponent implements OnInit, OnDestroy {
   }
 
   buscarDireccion() {
-    if (this.form.get('direccion')?.value.trim()) {
+    if (this.form.get('direccion')?.value && this.form.get('direccion')?.value.trim()) {
       this.sharedService.setDireccion(this.form.get('direccion')?.value);
     }
   }
 
   buscarPrediccion() {
-    if (this.form.get('direccion')?.value.trim()) {
+    if (this.form.get('direccion')?.value && this.form.get('direccion')?.value.trim()) {
       this.sharedService.setPrediccion(this.form.get('direccion')?.value);
     } else {
       this.listaPrediccion = [];
