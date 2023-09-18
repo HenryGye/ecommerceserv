@@ -5,6 +5,7 @@ import { DatosPersonalesComponent } from './modules/datos-personales/datos-perso
 import { CoberturaComponent } from './modules/cobertura/cobertura.component';
 import { BiometriaFacialComponent } from './modules/biometria-facial/biometria-facial.component';
 import { InstalacionComponent } from './modules/instalacion/instalacion.component';
+import { LocationStrategy, PathLocationStrategy } from '@angular/common';
 
 const routes: Routes = [
   {
@@ -38,6 +39,7 @@ const routes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
+  providers: [{ provide: LocationStrategy, useClass: PathLocationStrategy }]
 })
 export class AppRoutingModule { }
