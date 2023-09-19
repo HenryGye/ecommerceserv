@@ -10,6 +10,7 @@ import { GoogleMapComponent } from './google-map/google-map.component';
 import { PlanHfcComponent } from './plan-hfc/plan-hfc.component';
 import { LoadingSpinnerComponent } from './loading-spinner/loading-spinner.component';
 import { RecaptchaModule } from "ng-recaptcha";
+import { ErrorComponent } from './error/error.component';
 
 @NgModule({
   imports: [
@@ -24,7 +25,8 @@ import { RecaptchaModule } from "ng-recaptcha";
     CalendarioHorarioComponent,
     GoogleMapComponent,
     PlanHfcComponent,
-    LoadingSpinnerComponent
+    LoadingSpinnerComponent,
+    ErrorComponent
   ],
   exports: [
     CommonModule,
@@ -35,7 +37,8 @@ import { RecaptchaModule } from "ng-recaptcha";
     GoogleMapComponent,
     PlanHfcComponent,
     LoadingSpinnerComponent,
-    RecaptchaModule
+    RecaptchaModule,
+    ErrorComponent
   ],
   providers: [
     SharedService

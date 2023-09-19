@@ -6,6 +6,7 @@ import { CoberturaComponent } from './modules/cobertura/cobertura.component';
 import { BiometriaFacialComponent } from './modules/biometria-facial/biometria-facial.component';
 import { InstalacionComponent } from './modules/instalacion/instalacion.component';
 import { HashLocationStrategy, LocationStrategy, PathLocationStrategy } from '@angular/common';
+import { ErrorComponent } from './shared/error/error.component';
 
 const routes: Routes = [
   {
@@ -33,7 +34,8 @@ const routes: Routes = [
   },
   {
     path: '**',
-    redirectTo: 'compra-en-linea/cobertura'
+    component: ErrorComponent
+    // redirectTo: 'compra-en-linea/cobertura'
   }
 ];
 
