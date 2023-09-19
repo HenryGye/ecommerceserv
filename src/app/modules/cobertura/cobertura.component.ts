@@ -47,7 +47,21 @@ export class CoberturaComponent implements OnInit, OnDestroy {
     this.initializeFormNoCobertura();
 
     const direccionString = localStorage.getItem('direccion');
+    const gponString = localStorage.getItem('gpon');
+    const hfcString = localStorage.getItem('hfc');
     this.form.get('direccion')?.patchValue(direccionString !== null ? direccionString : null);
+
+    if (gponString && hfcString) {
+      if (JSON.parse(gponString) || (JSON.parse(gponString) && JSON.parse(hfcString))) {
+        this.cobertura = true;
+        this.sinCobertura = false;
+        this.form.setErrors(null);
+      } else {
+        this.form.setErrors({'valid': false});
+        this.cobertura = false;
+        this.sinCobertura = false;
+      }
+    }
   }
 
   ngOnInit(): void {
@@ -103,6 +117,8 @@ export class CoberturaComponent implements OnInit, OnDestroy {
         this.subSectorId = data.data?.subSectorId || 0;
         localStorage.setItem('subSectorId', this.subSectorId.toString());
         localStorage.setItem('direccion', this.form.get('direccion')?.value);
+        localStorage.setItem('gpon', this.gpon.toString());
+        localStorage.setItem('hfc', this.hfc.toString());
         this.cdr.detectChanges();
       },
       error: (error) => {
