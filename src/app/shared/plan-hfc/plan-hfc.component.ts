@@ -11,7 +11,7 @@ export class PlanHfcComponent implements OnInit {
     {
       id: 1,
       titulo: 'Súper HFC',
-      precioEntero: '$22,',
+      precioEntero: '$22',
       precioDecimal: '31',
       periodicidad: '',
       img: 'assets/img/super-hfc-200-megas.png',
@@ -20,7 +20,7 @@ export class PlanHfcComponent implements OnInit {
     {
       id: 2,
       titulo: 'Turbo HFC',
-      precioEntero: '$49,',
+      precioEntero: '$49',
       precioDecimal: '10',
       periodicidad: '',
       img: 'assets/img/super-hfc-300-megas.png',
@@ -32,7 +32,8 @@ export class PlanHfcComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  continuar() {
-    this.routerparams.navigate(['compra-en-linea/datos-personales']);
+  continuar(idPlan: number) {
+    let planes = this.planes.filter(e => e.id === idPlan)[0];
+    this.routerparams.navigate(['compra-en-linea/datos-personales'], { state: { planes: planes } });
   }
 }

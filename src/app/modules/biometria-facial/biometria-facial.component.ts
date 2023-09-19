@@ -23,6 +23,7 @@ export class BiometriaFacialComponent implements OnInit {
 
   urlValidacionBiometriaFacial: string = '';
   respuestaBiometria: any | undefined;
+  dataResumenPlan: any | undefined;
 
   constructor(
     private sharedService: SharedService,
@@ -45,6 +46,12 @@ export class BiometriaFacialComponent implements OnInit {
     }
 
     this.verificarRespuestaValidacionBiometrica();
+
+    let state = history.state;
+    if (state.planes !== undefined) {
+      this.dataResumenPlan = state.planes;
+    }
+    console.log('state ', this.dataResumenPlan);
   }
 
   ngOnInit(): void {
@@ -95,7 +102,7 @@ export class BiometriaFacialComponent implements OnInit {
 
   continuar() {
     this.routerparams.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-      this.routerparams.navigate(['compra-en-linea/instalacion']);
+      this.routerparams.navigate(['compra-en-linea/instalacion'], { state: { planes: this.dataResumenPlan } });
     });
   }
 }

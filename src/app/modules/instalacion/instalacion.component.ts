@@ -10,6 +10,7 @@ import { SharedService } from '../../shared/shared.service';
 export class InstalacionComponent {
   panelInstalacionServicio: boolean = true;
   panelRegistroCompleto: boolean = false;
+  dataResumenPlan: any | undefined;
 
   constructor(
     private sharedService: SharedService,
@@ -22,6 +23,12 @@ export class InstalacionComponent {
     this.sharedService.setTimeLineActivo3(false);
     this.sharedService.setTimeLineActivo1(false);
     this.sharedService.setTimeLineActivo2(false);
+
+    let state = history.state;
+    if (state.planes !== undefined) {
+      this.dataResumenPlan = state.planes;
+    }
+    console.log('state ', this.dataResumenPlan);
   }
 
   continuar() {

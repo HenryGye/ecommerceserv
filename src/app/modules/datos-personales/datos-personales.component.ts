@@ -28,13 +28,15 @@ export class DatosPersonalesComponent implements OnInit {
   fingerCode!: string | '';
 
   spinner: boolean = false;
+  dataResumenPlan: any | undefined;
 
   constructor(private formBuilder: FormBuilder,
     private sharedService: SharedService,
     private messageService: MessageService,
     private datosPersonalesService: DatosPersonalesService,
     private datosPersonalesValidator: DatosPersonalesValidator,
-    private routerparams: Router) {
+    private routerparams: Router,
+    private activatedRoute: ActivatedRoute) {
     this.sharedService.setTimeLineCobertura(true);
     this.sharedService.setTimeLineDatosPersonales(true);
     this.sharedService.setTimeLineActivo1(true);
@@ -51,6 +53,12 @@ export class DatosPersonalesComponent implements OnInit {
       delete formularioData.calleSecundaria;
       this.form.patchValue(formularioData);
     }
+
+    let state = history.state;
+    if (state.planes !== undefined) {
+      this.dataResumenPlan = state.planes;
+    }
+    console.log('state ', this.dataResumenPlan);
   }
 
   @HostListener('document:click', ['$event'])
@@ -315,7 +323,7 @@ export class DatosPersonalesComponent implements OnInit {
           localStorage.setItem('url_biometria', data.url_biometria);
           localStorage.setItem('url_redirect', data.url_redirect);
 
-          this.routerparams.navigate(['compra-en-linea/biometria-facial']);
+          this.routerparams.navigate(['compra-en-linea/biometria-facial'], { state: { planes: this.dataResumenPlan } });
         } else {
           this.spinner = false
           this.messageService.add({severity: 'error', detail: '¡Ha ocurrido un error. Por favor intente nuevamente!'});
