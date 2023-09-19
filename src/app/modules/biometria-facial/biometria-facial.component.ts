@@ -54,7 +54,7 @@ export class BiometriaFacialComponent implements OnInit {
     console.log('solicitar validacion ', this.urlValidacionBiometriaFacial);
 
     if (this.urlValidacionBiometriaFacial) {
-      window.location.href = this.urlValidacionBiometriaFacial.replace('/#/', '/');
+      window.location.href = this.urlValidacionBiometriaFacial.replace('/#/', '/%23/');
     }
 
 
