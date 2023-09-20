@@ -255,7 +255,7 @@ export class DatosPersonalesComponent implements OnInit {
         name: this.separarNombre(this.customerName).nombres,
         phone: this.form.get('celular')?.value,
         surname: this.separarNombre(this.customerName).apellidos,
-        transactionId: "48841",
+        transactionId: ((new Date()).getTime()).toString().substring(4,13),
         typeContract: "NUEVO",
         typeDoc: "500022"
       },
@@ -314,27 +314,34 @@ export class DatosPersonalesComponent implements OnInit {
       }
     };
 
-    this.datosPersonalesService.guardarAceptacionContrato(body).subscribe({
-      next: (data) => {
-        console.log(data);
-        if (data.success) {
-          this.spinner = false
-          localStorage.setItem('finger_code_uuid', data.finger_code_uuid);
-          localStorage.setItem('url_biometria', data.url_biometria);
-          localStorage.setItem('url_redirect', data.url_redirect);
-
-          this.routerparams.navigate(['compra-en-linea/biometria-facial'], { state: { planes: this.dataResumenPlan } });
-        } else {
-          this.spinner = false
-          this.messageService.add({severity: 'error', detail: '¡Ha ocurrido un error. Por favor intente nuevamente!'});
-        }
-      },
-      error: (error) => {
-        this.messageService.add({severity: 'error', detail: '¡Ha ocurrido un error. Por favor intente nuevamente!'});
-        this.spinner = false
-        console.log(error);
+    this.routerparams.navigate(['compra-en-linea/biometria-facial'], {
+      state: {
+        planes: this.dataResumenPlan,
+        datosPersonales: body
       }
     });
+
+    // this.datosPersonalesService.guardarAceptacionContrato(body).subscribe({
+    //   next: (data) => {
+    //     console.log(data);
+    //     if (data.success) {
+    //       this.spinner = false
+    //       localStorage.setItem('finger_code_uuid', data.finger_code_uuid);
+    //       localStorage.setItem('url_biometria', data.url_biometria);
+    //       localStorage.setItem('url_redirect', data.url_redirect);
+
+    //       this.routerparams.navigate(['compra-en-linea/biometria-facial'], { state: { planes: this.dataResumenPlan } });
+    //     } else {
+    //       this.spinner = false
+    //       this.messageService.add({severity: 'error', detail: '¡Ha ocurrido un error. Por favor intente nuevamente!'});
+    //     }
+    //   },
+    //   error: (error) => {
+    //     this.messageService.add({severity: 'error', detail: '¡Ha ocurrido un error. Por favor intente nuevamente!'});
+    //     this.spinner = false
+    //     console.log(error);
+    //   }
+    // });
   }
 
   separarNombre(data: string) {
