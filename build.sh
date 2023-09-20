@@ -1,3 +1,7 @@
+git pull origin develop
+git add .
+git commit -m "build"
+git push origin develop
 
 export SHORT_COMMIT=$(git log -1 --pretty="%H" | cut -b -8)
 export DOCKER_IMAGE_VERSION="prod_${SHORT_COMMIT}"
