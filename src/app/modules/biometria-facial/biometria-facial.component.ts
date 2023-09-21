@@ -82,13 +82,7 @@ export class BiometriaFacialComponent implements OnInit {
       .subscribe({
         next: (data) => {
           console.log(data);
-          if (data.success) {
-            // this.spinner = false
-            // localStorage.setItem('finger_code_uuid', data.finger_code_uuid);
-            // localStorage.setItem('url_biometria', data.url_biometria);
-            // localStorage.setItem('url_redirect', data.url_redirect);
-          } else {
-            // this.spinner = false
+          if (!data.success) {
             this.messageService.add({severity: 'error', detail: '¡Ha ocurrido un error. Por favor intente nuevamente!'});
           }
         },
