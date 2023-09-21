@@ -19,6 +19,9 @@ import { DatosPersonalesComponent } from './modules/datos-personales/datos-perso
 import { CoberturaComponent } from './modules/cobertura/cobertura.component';
 import { BiometriaFacialComponent } from './modules/biometria-facial/biometria-facial.component';
 import { InstalacionComponent } from './modules/instalacion/instalacion.component';
+import { RECAPTCHA_SETTINGS, RecaptchaFormsModule, RecaptchaModule, RecaptchaSettings } from 'ng-recaptcha';
+import { environment } from 'src/environments/environment.development';
+import { TestComponent } from './modules/test/test.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +32,8 @@ import { InstalacionComponent } from './modules/instalacion/instalacion.componen
     DatosPersonalesComponent,
     CoberturaComponent,
     BiometriaFacialComponent,
-    InstalacionComponent
+    InstalacionComponent,
+    TestComponent
   ],
   imports: [
     CommonModule,
@@ -40,7 +44,9 @@ import { InstalacionComponent } from './modules/instalacion/instalacion.componen
     HttpClientModule,
     AppRoutingModule,
     PrimengModule,
-    SharedModule
+    SharedModule,
+    RecaptchaModule,
+    RecaptchaFormsModule,
   ],
   providers: [
     MessageService,
@@ -49,6 +55,12 @@ import { InstalacionComponent } from './modules/instalacion/instalacion.componen
       useClass: RequestLimitInterceptor,
       multi: true,
     },
+    {
+      provide: RECAPTCHA_SETTINGS,
+      useValue: {
+        siteKey: environment.recaptcha.siteKey,
+      } as RecaptchaSettings,
+    }
   ],
   bootstrap: [AppComponent]
 })

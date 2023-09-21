@@ -7,6 +7,7 @@ import { BiometriaFacialComponent } from './modules/biometria-facial/biometria-f
 import { InstalacionComponent } from './modules/instalacion/instalacion.component';
 import { HashLocationStrategy, LocationStrategy, PathLocationStrategy } from '@angular/common';
 import { ErrorComponent } from './shared/error/error.component';
+import { TestComponent } from './modules/test/test.component';
 
 const routes: Routes = [
   {
@@ -29,6 +30,9 @@ const routes: Routes = [
       },
       {
         path: 'instalacion', component: InstalacionComponent,
+      },
+      {
+        path: 'test', component: TestComponent
       }
     ]
   },

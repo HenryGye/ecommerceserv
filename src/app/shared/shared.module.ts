@@ -16,7 +16,7 @@ import { ErrorComponent } from './error/error.component';
   imports: [
     CommonModule,
     GoogleMapsModule,
-    RecaptchaModule
+    // RecaptchaModule
   ],
   declarations: [
     TimelineComponent,
@@ -37,7 +37,7 @@ import { ErrorComponent } from './error/error.component';
     GoogleMapComponent,
     PlanHfcComponent,
     LoadingSpinnerComponent,
-    RecaptchaModule,
+    // RecaptchaModule,
     ErrorComponent
   ],
   providers: [
