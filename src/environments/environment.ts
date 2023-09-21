@@ -8,4 +8,7 @@ export const environment = {
   API_CONSULTAR_BURO_CLIENTE: 'backend/api/v1/findByIdentificationNumber',
   API_CONSULTAR_DATOS_CLIENTE: 'backend/api/v1/dniAccounts',
   API_ACEPTACION_CONTRATO: 'backend/api/v1/accept',
+  recaptcha: {
+    siteKey: '6LfcgkIoAAAAAIIkaicneho-aK5JekWcUFeJyZeh',
+  },
 };
